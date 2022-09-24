@@ -15,6 +15,18 @@ fun main() {
       """.trimMargin())
    }
 
+   //Easier forEach method
+
+//   empleados.forEach {
+//      println("===========||EMPLEADOS CREADOS||===========")
+//      println("""
+//         |Identificador: ${it.indentificador}
+//         |Nombre: ${it.nombre}
+//         |Direccion: ${it.direccion}
+//         |Salario: ${it.salario}
+//      """.trimMargin())
+//   }
+
 }
 
 private fun addEmpleados(empleados: ArrayList<Empleados>) {
