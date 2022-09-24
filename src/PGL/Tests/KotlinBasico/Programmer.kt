@@ -1,4 +1,4 @@
-package PGL.Tests
+package PGL.Tests.KotlinBasico
 
 class Programmer(val name: String,
                  var age: Int,
