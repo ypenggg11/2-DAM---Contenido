@@ -1,0 +1,1 @@
+Desarrolla un programa en java que cree un fichero nuevo y escribe una cadena de caracteres: cadena="Primera prueba con FileWriter"
