@@ -10,19 +10,25 @@ public class Main2 {
 
     public static void main(String[] args) {
 
-        leeEmpleados();
+        //Lee las personas del fichero Persona.obj y escribe los datos del objeto leído en Persona.DAT (DataOutputStream)
+        leePersonas();
 
+        //Lee el fichero Persona.DAT
         leerFicheroDAT();
     }
 
     private static void leerFicheroDAT() {
+        //Lectura de datos primitivos
         DataInputStream dataInputStream;
 
         try {
             dataInputStream = new DataInputStream(new FileInputStream(path));
 
+            //Repetirá infinitamente hasta que ocurra la EOFException (cuando no queden datos a leer del fichero)
             try {
                 while (true) {
+
+                    //Lee los datos primitivos del fichero Persona.DAT
                     String nombre = dataInputStream.readUTF();
                     String DNI = dataInputStream.readUTF();
                     Integer edad = dataInputStream.readInt();
@@ -48,11 +54,12 @@ public class Main2 {
         }
     }
 
-    private static void leeEmpleados() {
+    private static void leePersonas() {
 
         FileInputStream fileInputStream;
         ObjectInputStream objectInputStream;
 
+        //Escritura de datos primitivos
         DataOutputStream dataOutputStream;
 
         try {
@@ -61,8 +68,10 @@ public class Main2 {
 
             dataOutputStream = new DataOutputStream(new FileOutputStream(path));
 
+            //Repetirá infinitamente hasta que ocurra la EOFException (cuando no queden datos a leer del fichero)
             try {
                 while (true) {
+                    //Escribe los datos del objeto leído, y los guarda en un nuevo fichero como datos primitivos
                     escribeDato((Persona) objectInputStream.readObject(),dataOutputStream);
                 }
             }catch (EOFException e) {}
@@ -83,7 +92,9 @@ public class Main2 {
 
         try {
 
-            dataOutputStream.writeUTF(object.getNombre());
+            //Escribe los atributos del objeto y los guarda como datos primitivos
+
+            dataOutputStream.writeUTF(object.getNombre()); //UTF escribe Strings
             dataOutputStream.writeUTF(object.getDNI());
             dataOutputStream.writeInt(object.getEdad());
             dataOutputStream.writeDouble(object.getSalario());

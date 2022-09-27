@@ -3,6 +3,7 @@ package AED.Actividad2Serializacion;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
+//Para que permita la escritura de este objeto, tiene q implementar la interfaz Serializable
 public class Persona implements Serializable {
 
     private DecimalFormat decimalFormat;

@@ -11,23 +11,29 @@ public class Main {
     private static ArrayList<Integer> edad=new ArrayList<>();
     private static ArrayList<Double> salario = new ArrayList<>();
 
+    //Nombres y DNIs por defectos
     private static String[] NOMBRES,DNI;
 
     private static String path = "./src/AED/Actividad2Serializacion/Persona.obj";
 
     public static void main(String[] args) {
+        //Inicializa los nombres y DNIs por defecto
         initNombresDNI();
 
-        infoEmpleados(6);
+        //Genera datos de las personas y los almacena en su correspondiente lista (ArrayList)
+        infoPersonas(6);
 
-        creaEmpleados(dni.size());
+        //Crea las personas a partir de las listas de datos y los guarda en el fichero Persona.obj (ObjectOutputStream)
+        creaPersonas(dni.size());
 
-        leeEmpleados();
+        //Lee las personas del fichero anteriormente guardados
+        leePersonas();
     }
 
-    private static void leeEmpleados() {
+    private static void leePersonas() {
 
         FileInputStream fileInputStream;
+        //Permite la lectura de objetos
         ObjectInputStream objectInputStream;
 
         try {
@@ -51,9 +57,10 @@ public class Main {
         }
     }
 
-    private static void creaEmpleados(int numEmpleados) {
+    private static void creaPersonas(int numEmpleados) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(path);
+            //Permite la escritura de objetos
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
 
             for (int i = 0;i<numEmpleados;i++) {
@@ -90,6 +97,7 @@ public class Main {
         };
     }
 
+    //Devuelve un número aleatorio, entre los min y max pasados por parámetro
     private static double randomNum(boolean doubleValue,int minvalue,int maxValue){
         Random random = new Random();
 
@@ -100,7 +108,8 @@ public class Main {
         }
     }
 
-    private static void infoEmpleados(int numEmpleados) {
+    private static void infoPersonas(int numEmpleados) {
+
         for (int i = 0;i<numEmpleados;i++) {
             nombre.add(NOMBRES[(int) randomNum(false,0,8)]);
             dni.add(DNI[(int) randomNum(false,0,8)]);
@@ -108,6 +117,7 @@ public class Main {
             int edadAux = (int) randomNum(false,0,64);
             edad.add(edadAux);
 
+            //Los menores de 16, no tendrán un salario
             if (edadAux<16) {
                 salario.add((double) 0);
             }else {
