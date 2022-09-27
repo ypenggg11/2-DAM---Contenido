@@ -1,4 +1,4 @@
-package PGV.UT1;
+package PGV.Tests;
 
 import java.io.File;
 import java.io.IOException;
