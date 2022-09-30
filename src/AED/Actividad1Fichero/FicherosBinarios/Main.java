@@ -21,7 +21,7 @@ public class Main {
         try {
             file = new File("./AED/src/Actividad1Fichero/FicherosBinarios/Texto.txt");
 
-            fileOutputStream = new FileOutputStream(file);
+            fileOutputStream = new FileOutputStream(file,true);
 
             for (int i=1;i<=50;i++) {
 
