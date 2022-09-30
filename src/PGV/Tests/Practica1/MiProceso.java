@@ -1,4 +1,4 @@
-package PGV.Tests;
+package PGV.Tests.Practica1;
 
 import java.io.File;
 import java.io.IOException;

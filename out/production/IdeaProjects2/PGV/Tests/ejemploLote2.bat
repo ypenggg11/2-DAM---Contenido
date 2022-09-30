@@ -1,3 +1,0 @@
-dir
-pause
-ipconfig
