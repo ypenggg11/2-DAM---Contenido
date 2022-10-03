@@ -21,7 +21,7 @@ public class EjemploXML {
 		DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
 
 		DocumentBuilder mixml = fac.newDocumentBuilder();
-		Document doc = mixml.parse(new File("./" + nomdoc + ".xml"));
+		Document doc = mixml.parse(new File("./src/AED/UT1/Ejemplos/" + nomdoc + ".xml"));
 
 		doc.getDocumentElement().normalize();
 

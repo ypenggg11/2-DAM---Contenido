@@ -52,7 +52,7 @@ public class EjemploDOM {
 
 		// Crea la fuente XML a partir del documento
 		Source fs = new DOMSource(doc);
-		Result res = new StreamResult(new File("./"+nomdoc + ".xml"));
+		Result res = new StreamResult(new File("./src/AED/UT1/Ejemplos/"+nomdoc + ".xml"));
 
 		Transformer trans = TransformerFactory.newInstance().newTransformer();
 
