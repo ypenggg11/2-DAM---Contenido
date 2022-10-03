@@ -1,4 +1,4 @@
-package AED.Actividad1Fichero.ListasDeFicheros;
+package AED.UT1.Actividad1Fichero.PropiedadesDeFicheros;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,10 +47,17 @@ public class GUI extends JFrame implements ActionListener {
             if (response == JFileChooser.APPROVE_OPTION) {
                 File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
 
-                String[] files = file.list();
+                File[] filesList = file.listFiles();
 
-                for (String filesName: files) {
-                    System.out.println(filesName);
+                for (File f: filesList) {
+                    System.out.print(f.getName()+" || ");
+                    System.out.print(f.getPath()+" || ");
+                    System.out.print(f.getAbsolutePath()+" || ");
+                    System.out.print(f.canRead()+" || ");
+                    System.out.print(f.canWrite()+" || ");
+                    System.out.print(f.length()+" || ");
+                    System.out.print(f.isDirectory()+" || ");
+                    System.out.print(f.isFile()+"\n");
                 }
             }
         }

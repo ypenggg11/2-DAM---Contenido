@@ -1,4 +1,4 @@
-package AED.Actividad1Fichero.FicherosBinarios;
+package AED.UT1.Actividad1Fichero.FicherosBinarios;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

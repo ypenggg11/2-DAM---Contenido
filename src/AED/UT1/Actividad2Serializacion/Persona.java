@@ -1,4 +1,4 @@
-package AED.Actividad2Serializacion;
+package AED.UT1.Actividad2Serializacion;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;

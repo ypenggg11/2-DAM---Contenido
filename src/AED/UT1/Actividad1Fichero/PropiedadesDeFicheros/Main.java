@@ -1,4 +1,4 @@
-package AED.Actividad1Fichero.PropiedadesDeFicheros;
+package AED.UT1.Actividad1Fichero.PropiedadesDeFicheros;
 
 public class Main {
 

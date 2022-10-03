@@ -1,4 +1,4 @@
-package AED.Actividad3FichAleatorios;
+package AED.UT1.Actividad3FichAleatorios;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

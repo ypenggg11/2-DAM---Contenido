@@ -1,7 +1,5 @@
 package AED.PlantillasUT1;
 
-import AED.Actividad2Serializacion.Persona;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
