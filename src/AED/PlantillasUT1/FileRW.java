@@ -10,7 +10,7 @@ public class FileRW {
     private FileReader fileReader;
 
     public FileRW(String path) {
-        this.file = new File(Objects.requireNonNull(this.getClass().getResource(path)).getFile());
+        this.file = new File(path);
     }
 
     public void readFile(int charsToRead) {

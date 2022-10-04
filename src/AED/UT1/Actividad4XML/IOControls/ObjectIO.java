@@ -1,8 +1,9 @@
-package AED.PlantillasUT1;
+package AED.UT1.Actividad4XML.IOControls;
+
+import AED.UT1.Actividad4XML.Objects.CentroEducativo;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 //El objeto a escribir tiene que implementar la interfaz serializable
 public class ObjectIO {
@@ -36,24 +37,21 @@ public class ObjectIO {
         }
     }
 
-    public ArrayList<Object> readObjectToList() {
+    public ArrayList<CentroEducativo> readObjectToList() {
         //Cambiar según el tipo de objeto
-        ArrayList<Object> objectList = new ArrayList<>();
+        ArrayList<CentroEducativo> objectList = new ArrayList<>();
 
         try {
             objectInputStream = new ObjectInputStream(new FileInputStream(this.file));
 
             try {
                 while (true) {
-                    objectList.add(objectInputStream.readObject());
+                    objectList.add((CentroEducativo) objectInputStream.readObject());
                 }
             }catch (EOFException e) {}
 
             objectInputStream.close();
-        } catch (FileNotFoundException | ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -66,7 +64,6 @@ public class ObjectIO {
             objectOutputStream = new ObjectOutputStream(new FileOutputStream(this.file));
 
             for (int i = 0;i<objectList.size();i++) {
-                //Cambiar según el objeto
                 objectOutputStream.writeObject(objectList.get(i));
             }
 

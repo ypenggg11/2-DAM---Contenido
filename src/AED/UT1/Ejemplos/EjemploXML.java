@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 public class EjemploXML {
 
+	//Lectura de un XML
 	public static void main(String[] args) throws Exception {
 
 		String nomdoc = "Mascotas";
@@ -23,6 +24,7 @@ public class EjemploXML {
 		DocumentBuilder mixml = fac.newDocumentBuilder();
 		Document doc = mixml.parse(new File("./src/AED/UT1/Ejemplos/" + nomdoc + ".xml"));
 
+		//Para optimizar
 		doc.getDocumentElement().normalize();
 
 		System.out.println("Elemento raiz: "

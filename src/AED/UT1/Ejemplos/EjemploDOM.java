@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 
 public class EjemploDOM {
 
+	//Escritura de un XML
 	public static void main(String[] args) throws Exception {
 
 		String names[] = { "Coty", "Max", "Poki" };

@@ -11,7 +11,7 @@ public class IO_Stream {
     private FileInputStream fileInputStream;
 
     public IO_Stream(String path) {
-        this.file = new File(Objects.requireNonNull(this.getClass().getResource(path)).getFile());
+        this.file = new File(path);
     }
 
     public void writeFile(String line,boolean append) {
