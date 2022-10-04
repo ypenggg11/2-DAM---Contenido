@@ -1,5 +1,6 @@
 package AED.UT1.Actividad4XML.Constants;
 
+//Contiene únicamente constantes relacioneados con el fichero xml a leer/crear.
 public class xmlConstants {
 
     //<Centros_educativos> -> raíz

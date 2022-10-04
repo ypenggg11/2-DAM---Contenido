@@ -15,8 +15,10 @@ public class Main {
     //CIFP... -> valor del campo
     private static String path = "./src/AED/UT1/Actividad4XML/Outputs/centros_educativos.obj";
     private static ArrayList<CentroEducativo> centrosEducativos;
+    //Clase personalizada que contiene métodos para leer y escribir objetos.
     private static ObjectIO objectIO;
-    private static AED.UT1.Actividad4XML.IOControls.xmlIO xmlIO;
+    //Clase personalizada que contiene métodos para leer y escribir ficheros XML.
+    private static xmlIO xmlIO;
 
     public static void main(String[] args) {
         initCentrosEducativos();
@@ -24,6 +26,8 @@ public class Main {
         objectIO = new ObjectIO(path);
         objectIO.writeObject(centrosEducativos);
 
+        //xmlConstants es una clase personalizada que contiene puramente constantes
+        //relacionados con el fichero xml.
         xmlIO = new xmlIO(xmlConstants.raiz);
 
         writeXMLFile();
@@ -33,6 +37,7 @@ public class Main {
         xmlIO.readXMLfile(xmlConstants.path,xmlConstants.nodo,xmlConstants.campos);
     }
 
+    //Escribe los elementos de nuestra lista al fichero XML.
     private static void writeXMLFile() {
         for (CentroEducativo centro: objectIO.readObjectToList()) {
             String[] valorCampos = {
@@ -44,6 +49,7 @@ public class Main {
         }
     }
 
+    //Muestra por consola el título (elemento raíz) y los campos del fichero xml.
     private static void printTitulo() {
         System.out.println(
                 "||=================================================================||"
@@ -57,6 +63,7 @@ public class Main {
         System.out.println();
     }
 
+    //Crea los los objetos CentroEducativo, y los añade a la lista.
     private static void initCentrosEducativos() {
         centrosEducativos = new ArrayList<>();
 
