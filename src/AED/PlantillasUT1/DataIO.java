@@ -1,9 +1,13 @@
 package AED.PlantillasUT1;
 
 import java.io.*;
-import java.util.Objects;
+import java.util.ArrayList;
 
 public class DataIO {
+
+    enum PrimitiveTypes {
+        INT, DOUBLE, CHAR, STRING, BOOLEAN, FLOAT;
+    }
 
     private File file;
     private DataOutputStream dataOutputStream;
@@ -11,64 +15,88 @@ public class DataIO {
 
     public DataIO(String path) {
         this.file = new File(path);
+
+        try {
+            this.dataOutputStream = new DataOutputStream(new FileOutputStream(this.file));
+            this.dataInputStream = new DataInputStream(new FileInputStream(this.file));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
-    public void readFile() {
+    public ArrayList<String> readFile(PrimitiveTypes[] dataTypes) {
+        ArrayList<String> dataList = new ArrayList<>();
+
         try {
-            dataInputStream = new DataInputStream(new FileInputStream(file));
 
             //Repetirá infinitamente hasta que ocurra la EOFException (cuando no queden datos a leer del fichero)
             try {
                 while (true) {
 
-                    //Modificar a gusto
-                    String nombre = dataInputStream.readUTF();
-                    String DNI = dataInputStream.readUTF();
-                    Integer edad = dataInputStream.readInt();
-                    Double salario = dataInputStream.readDouble();
+                    for (PrimitiveTypes type : dataTypes) {
+                        switch (type) {
+                            case INT -> dataList.add(String.valueOf(dataInputStream.readInt()));
+                            case CHAR -> dataList.add(String.valueOf(dataInputStream.readChar()));
+                            case STRING -> dataList.add(String.valueOf(dataInputStream.readUTF()));
+                            case BOOLEAN -> dataList.add(String.valueOf(dataInputStream.readBoolean()));
+                            case FLOAT -> dataList.add(String.valueOf(dataInputStream.readFloat()));
+                            case DOUBLE -> dataList.add(String.valueOf(dataInputStream.readDouble()));
+                        }
+                    }
 
-
-//                    if (edad>=18) {
-//                        System.out.println("||----------||Persona||----------||\n" +
-//                                "Nombre: " +nombre + '\n' +
-//                                "DNI: " + DNI + '\n' +
-//                                "Edad: " + edad +'\n'+
-//                                "Salario: " + decimalFormat.format(salario) +
-//                                "€\n");
-//                    }
                 }
             } catch (EOFException e) {
             }
 
-            dataInputStream.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        return dataList;
     }
 
-    public void writeFile() {
+    public <T> void writeFile(PrimitiveTypes dataTypes, T dataValue) {
         try {
-            dataOutputStream = new DataOutputStream(new FileOutputStream(file));
 
-            //Repetirá infinitamente hasta que ocurra la EOFException (cuando no queden datos a leer del fichero)
             try {
 
-                //Escribe los datos del objeto leído, y los guarda en un nuevo fichero como datos primitivos
-                dataOutputStream.writeUTF("object.getNombre()"); //UTF escribe Strings
-                dataOutputStream.writeUTF("object.getDNI()");
-                dataOutputStream.flush();
+                switch (dataTypes) {
+                    case INT -> dataOutputStream.writeInt((Integer) dataValue);
+                    case CHAR -> dataOutputStream.writeChar((Character) dataValue);
+                    case STRING -> dataOutputStream.writeUTF((String) dataValue);
+                    case BOOLEAN -> dataOutputStream.writeBoolean((Boolean) dataValue);
+                    case FLOAT -> dataOutputStream.writeFloat((Float) dataValue);
+                    case DOUBLE -> dataOutputStream.writeDouble((Double) dataValue);
+                }
+
             } catch (EOFException e) {
             }
 
-            dataOutputStream.close();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+    }
+
+    public void closeWriter() {
+        try {
+            dataOutputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void closeReader() {
+        try {
+            dataInputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

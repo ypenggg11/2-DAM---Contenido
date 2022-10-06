@@ -2,7 +2,7 @@ package AED.PlantillasUT1;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
+import java.util.ArrayList;
 
 public class IO_Stream {
 
@@ -12,16 +12,21 @@ public class IO_Stream {
 
     public IO_Stream(String path) {
         this.file = new File(path);
+
+        try {
+            this.fileInputStream = new FileInputStream(this.file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void writeFile(String line,boolean append) {
         try {
-            fileOutputStream = new FileOutputStream(file,append);
+            fileOutputStream = new FileOutputStream(this.file,append);
 
             fileOutputStream.write(line.getBytes(StandardCharsets.UTF_8));
             fileOutputStream.flush();
 
-            fileOutputStream.close();
         }catch (NullPointerException | FileNotFoundException e) {
             System.out.println("File doesn't exists");
         } catch (IOException e) {
@@ -29,7 +34,9 @@ public class IO_Stream {
         }
     }
 
-    public void readFile() {
+    public String readFile() {
+
+        StringBuffer text = new StringBuffer();
 
         try {
             fileInputStream = new FileInputStream(this.file);
@@ -37,12 +44,29 @@ public class IO_Stream {
             int character;
 
             while ((character = fileInputStream.read())!=-1) {
-                System.out.print((char)character);
+                text.append((char)character);
             }
 
-            fileInputStream.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return text.toString();
+    }
+
+    public void closeWriter() {
+        try {
+            fileOutputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void closeReader() {
+        try {
+            fileInputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

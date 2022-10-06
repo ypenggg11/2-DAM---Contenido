@@ -1,7 +1,7 @@
 package AED.PlantillasUT1;
 
 import java.io.*;
-import java.util.Objects;
+import java.util.ArrayList;
 
 public class FileRW {
 
@@ -11,51 +11,64 @@ public class FileRW {
 
     public FileRW(String path) {
         this.file = new File(path);
-    }
 
-    public void readFile(int charsToRead) {
         try {
             this.fileReader = new FileReader(this.file);
+            this.fileWriter = new FileWriter(this.file);
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String readFile(int charsToRead) {
+        StringBuilder text = new StringBuilder();
+
+        try {
 
             int character;
             char[] numOfChars = new char[charsToRead];
 
             while ((character = fileReader.read(numOfChars)) != -1) {
 
-                System.out.println(new String(numOfChars,0,character));
+                text.append(new String(numOfChars,0,character));
 
                 numOfChars = new char[charsToRead];
             }
 
-            fileReader.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        return text.toString();
     }
 
-    public void readFile() {
+    public String readFile() {
+        StringBuilder text= new StringBuilder();
+
         try {
-            this.fileReader = new FileReader(this.file);
 
             int character;
 
             while ((character = fileReader.read()) != -1){
-                System.out.print(character);
+                text.append((char) character);
             }
 
-            fileReader.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        return text.toString();
     }
 
     public void writeFile(String line,boolean append) {
         try {
-            this.fileWriter = new FileWriter(this.file);
 
             if (append){
                 fileWriter.append(line);
@@ -65,7 +78,22 @@ public class FileRW {
                 fileWriter.flush();
             }
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void closeWriter() {
+        try {
             fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void closeReader() {
+        try {
+            fileReader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

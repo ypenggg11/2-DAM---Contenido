@@ -1,4 +1,4 @@
-package AED.PlantillasUT1;
+package AED.UT1.Simulacro.IOManager;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,17 +12,11 @@ public class ObjectIO {
 
     public ObjectIO(String path) {
         this.file = new File(path);
-
-        try {
-            this.objectInputStream = new ObjectInputStream(new FileInputStream(this.file));
-            this.objectOutputStream = new ObjectOutputStream(new FileOutputStream(this.file));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void readObject() {
         try {
+            objectInputStream = new ObjectInputStream(new FileInputStream(this.file));
 
             try {
                 while (true) {
@@ -31,6 +25,7 @@ public class ObjectIO {
                 }
             }catch (EOFException e) {}
 
+            objectInputStream.close();
         } catch (FileNotFoundException | ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -45,6 +40,7 @@ public class ObjectIO {
         ArrayList<Object> objectList = new ArrayList<>();
 
         try {
+            objectInputStream = new ObjectInputStream(new FileInputStream(this.file));
 
             try {
                 while (true) {
@@ -52,6 +48,7 @@ public class ObjectIO {
                 }
             }catch (EOFException e) {}
 
+            objectInputStream.close();
         } catch (FileNotFoundException | ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -65,29 +62,16 @@ public class ObjectIO {
 
     public <T> void writeObject(ArrayList<T> objectList) {
         try {
+            objectOutputStream = new ObjectOutputStream(new FileOutputStream(this.file));
+
             for (int i = 0;i<objectList.size();i++) {
                 //Cambiar según el objeto
                 objectOutputStream.writeObject(objectList.get(i));
             }
 
+            objectOutputStream.close();
         } catch (IOException i) {
             i.printStackTrace();
-        }
-    }
-
-    public void closeWriter() {
-        try {
-            objectOutputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void closeReader() {
-        try {
-            objectInputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
