@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class DataIO {
 
+    //Enum con los tipos de primitivos permitidos.(los fundamentales)
     enum PrimitiveTypes {
         INT, DOUBLE, CHAR, STRING, BOOLEAN, FLOAT;
     }
@@ -15,39 +16,38 @@ public class DataIO {
 
     public DataIO(String path) {
         this.file = new File(path);
-
-        try {
-            this.dataOutputStream = new DataOutputStream(new FileOutputStream(this.file));
-            this.dataInputStream = new DataInputStream(new FileInputStream(this.file));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
+    //Lee el fichero y devuelve un ArrayList con todos los datos primitivos.
+    //(Se tiene que saber el orden y el tipo de primitivo que fueron introducidos)
+    //Para ello, usaremos un array de nuestro Enum PrimitivesTypes
+    //(Ej: [PrimitiveTypes.INT,PrimitiveTypes.DOUBLE]...)
     public ArrayList<String> readFile(PrimitiveTypes[] dataTypes) {
         ArrayList<String> dataList = new ArrayList<>();
 
         try {
+            this.dataInputStream = new DataInputStream(new FileInputStream(this.file));
 
             //Repetirá infinitamente hasta que ocurra la EOFException (cuando no queden datos a leer del fichero)
             try {
                 while (true) {
-
+                    //Dependiendo del tipo de dato, lo leerá con su correspondiente método.
                     for (PrimitiveTypes type : dataTypes) {
                         switch (type) {
-                            case INT -> dataList.add(String.valueOf(dataInputStream.readInt()));
-                            case CHAR -> dataList.add(String.valueOf(dataInputStream.readChar()));
-                            case STRING -> dataList.add(String.valueOf(dataInputStream.readUTF()));
-                            case BOOLEAN -> dataList.add(String.valueOf(dataInputStream.readBoolean()));
-                            case FLOAT -> dataList.add(String.valueOf(dataInputStream.readFloat()));
-                            case DOUBLE -> dataList.add(String.valueOf(dataInputStream.readDouble()));
+                            case INT -> dataList.add(String.valueOf(this.dataInputStream.readInt()));
+                            case CHAR -> dataList.add(String.valueOf(this.dataInputStream.readChar()));
+                            case STRING -> dataList.add(this.dataInputStream.readUTF());
+                            case BOOLEAN -> dataList.add(String.valueOf(this.dataInputStream.readBoolean()));
+                            case FLOAT -> dataList.add(String.valueOf(this.dataInputStream.readFloat()));
+                            case DOUBLE -> dataList.add(String.valueOf(this.dataInputStream.readDouble()));
                         }
                     }
 
                 }
             } catch (EOFException e) {
             }
+
+            this.dataInputStream.close();
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -58,22 +58,23 @@ public class DataIO {
         return dataList;
     }
 
-    public <T> void writeFile(PrimitiveTypes dataTypes, T dataValue) {
+    //Escribe en el fichero, cualquier primitivo pasado por parametro (T dataValue)
+    //T permitirá cualquier tipo de variable (generics) y hay q indicarlo con <T>
+    //Se deberá indicar el tipo de dato (dataTypes) y si lo añadiremos o sobreescribiremos (append)
+    public <T> void writeFile(PrimitiveTypes dataTypes, T dataValue,boolean append) {
         try {
 
-            try {
+            this.dataOutputStream = new DataOutputStream(new FileOutputStream(this.file,append));
 
-                switch (dataTypes) {
-                    case INT -> dataOutputStream.writeInt((Integer) dataValue);
-                    case CHAR -> dataOutputStream.writeChar((Character) dataValue);
-                    case STRING -> dataOutputStream.writeUTF((String) dataValue);
-                    case BOOLEAN -> dataOutputStream.writeBoolean((Boolean) dataValue);
-                    case FLOAT -> dataOutputStream.writeFloat((Float) dataValue);
-                    case DOUBLE -> dataOutputStream.writeDouble((Double) dataValue);
-                }
-
-            } catch (EOFException e) {
+            switch (dataTypes) {
+                case INT -> this.dataOutputStream.writeInt((Integer) dataValue);
+                case CHAR -> this.dataOutputStream.writeChar((Character) dataValue);
+                case STRING -> this.dataOutputStream.writeUTF((String) dataValue);
+                case BOOLEAN -> this.dataOutputStream.writeFloat((Float) dataValue);
+                case DOUBLE -> this.dataOutputStream.writeDouble((Double) dataValue);
             }
+
+            this.dataOutputStream.close();
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -81,22 +82,6 @@ public class DataIO {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-    }
-
-    public void closeWriter() {
-        try {
-            dataOutputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void closeReader() {
-        try {
-            dataInputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 

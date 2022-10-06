@@ -2,7 +2,6 @@ package AED.PlantillasUT1;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 public class IO_Stream {
 
@@ -12,21 +11,19 @@ public class IO_Stream {
 
     public IO_Stream(String path) {
         this.file = new File(path);
-
-        try {
-            this.fileInputStream = new FileInputStream(this.file);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
+    //Escribe en el fichero, la linea indicada en el parametro
+    //En el caso de (append), se añadirá en vez de sobreescribir.
     public void writeFile(String line,boolean append) {
         try {
-            fileOutputStream = new FileOutputStream(this.file,append);
+            this.fileOutputStream = new FileOutputStream(this.file,append);
 
-            fileOutputStream.write(line.getBytes(StandardCharsets.UTF_8));
-            fileOutputStream.flush();
+            //FileI/OStream, trabaja en bytes.
+            this.fileOutputStream.write(line.getBytes(StandardCharsets.UTF_8));
+            this.fileOutputStream.flush();
 
+            this.fileOutputStream.close();
         }catch (NullPointerException | FileNotFoundException e) {
             System.out.println("File doesn't exists");
         } catch (IOException e) {
@@ -34,18 +31,22 @@ public class IO_Stream {
         }
     }
 
+    //Lee el contenido del fichero, y devuelve su contenido en una String
     public String readFile() {
 
         StringBuffer text = new StringBuffer();
 
         try {
-            fileInputStream = new FileInputStream(this.file);
+            this.fileInputStream = new FileInputStream(this.file);
 
             int character;
 
-            while ((character = fileInputStream.read())!=-1) {
-                text.append((char)character);
+            //Al trabajar en bytes, lo leeremos como int y lo casteamos a char.
+            while ((character = this.fileInputStream.read()) != -1) {
+                text.append((char) character);
             }
+
+            this.fileInputStream.close();
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -54,22 +55,6 @@ public class IO_Stream {
         }
 
         return text.toString();
-    }
-
-    public void closeWriter() {
-        try {
-            fileOutputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void closeReader() {
-        try {
-            fileInputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public File getFile() {

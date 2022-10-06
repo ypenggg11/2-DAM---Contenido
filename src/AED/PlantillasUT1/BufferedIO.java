@@ -3,33 +3,29 @@ package AED.PlantillasUT1;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Buffered {
+public class BufferedIO {
 
     private File file;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
 
-    public Buffered(String path) {
+    public BufferedIO(String path) {
         this.file = new File(path);
-
-        try {
-            this.bufferedReader = new BufferedReader(new FileReader(this.file));
-            this.bufferedWriter = new BufferedWriter(new FileWriter(this.file));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
+    //Lee el fichero,y devuelve todas las líneas leidas en un ArrayList
     public ArrayList<String> readFile() {
         ArrayList<String> linesList = new ArrayList<>();
 
         try {
+            this.bufferedReader = new BufferedReader(new FileReader(this.file));
             String line;
 
-            while ((line = bufferedReader.readLine()) != null){
+            while ((line = this.bufferedReader.readLine()) != null) {
                 linesList.add(line);
             }
 
+            this.bufferedReader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -37,37 +33,21 @@ public class Buffered {
         return linesList;
     }
 
-    public void writeFile(String line,boolean newLine,boolean append) {
+    //Escribe en el fichero las linea pasada por parámetro
+    //Si es true (newLine), daremos un salto de linea.
+    //Si es true (append), lo añadiremos sin sobreescribir su contenido.
+    public void writeFile(String line, boolean newLine, boolean append) {
         try {
+            this.bufferedWriter = new BufferedWriter(new FileWriter(this.file, append));
 
-            if (newLine){
-                bufferedWriter.newLine();
-                bufferedWriter.flush();
-            }
-            if (append){
-                bufferedWriter.append(line);
-                bufferedWriter.flush();
-            }else {
-                bufferedWriter.write(line);
-                bufferedWriter.flush();
+            if (newLine) {
+                this.bufferedWriter.newLine();
             }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+            this.bufferedWriter.write(line);
 
-    public void closeWriter() {
-        try {
-            bufferedWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void closeReader() {
-        try {
-            bufferedReader.close();
+            this.bufferedWriter.flush();
+            this.bufferedWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

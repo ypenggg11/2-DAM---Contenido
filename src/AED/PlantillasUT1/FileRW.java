@@ -1,7 +1,6 @@
 package AED.PlantillasUT1;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class FileRW {
 
@@ -11,32 +10,30 @@ public class FileRW {
 
     public FileRW(String path) {
         this.file = new File(path);
+    }
+
+    //Lee un conjunto de caracteres (charsToRead) y los devuelve almacenado en una String
+    public String readFile(int charsToRead) {
+        StringBuffer text = new StringBuffer();
 
         try {
             this.fileReader = new FileReader(this.file);
-            this.fileWriter = new FileWriter(this.file);
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public String readFile(int charsToRead) {
-        StringBuilder text = new StringBuilder();
-
-        try {
 
             int character;
             char[] numOfChars = new char[charsToRead];
 
-            while ((character = fileReader.read(numOfChars)) != -1) {
+            //Lee el número de caracteres especificados (longitud de numOfChars) y los almacena en ella.
+            while ((character = this.fileReader.read(numOfChars)) != -1) {
 
-                text.append(new String(numOfChars,0,character));
+                text.append(new String(numOfChars, 0, character));
 
                 numOfChars = new char[charsToRead];
+
+                //Separa cada conjunto de chars leidos con un salto de linea.
+                text.append("\n");
             }
+
+            this.fileReader.close();
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -47,17 +44,21 @@ public class FileRW {
         return text.toString();
     }
 
+    //Lee el fichero y devuelve su contenido completo en una String
     public String readFile() {
-        StringBuilder text= new StringBuilder();
+        StringBuffer text = new StringBuffer();
 
         try {
+            this.fileReader = new FileReader(this.file);
 
             int character;
 
-            while ((character = fileReader.read()) != -1){
+            //FileReader trabaja en int (con el número del char), y finaliza cuando es -1 el número
+            while ((character = this.fileReader.read()) != -1) {
                 text.append((char) character);
             }
 
+            this.fileReader.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -67,33 +68,17 @@ public class FileRW {
         return text.toString();
     }
 
-    public void writeFile(String line,boolean append) {
+    //Escribe en el fichero, la línea indicada.
+    //(append) especifica si se va a sobreescribir el contenido o se une al antiguo.
+    public void writeFile(String line, boolean append) {
         try {
+            this.fileWriter = new FileWriter(this.file, append);
 
-            if (append){
-                fileWriter.append(line);
-                fileWriter.flush();
-            }else {
-                fileWriter.write(line);
-                fileWriter.flush();
-            }
+            this.fileWriter.write(line);
+            this.fileWriter.flush();
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+            this.fileWriter.close();
 
-    public void closeWriter() {
-        try {
-            fileWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void closeReader() {
-        try {
-            fileReader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

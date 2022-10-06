@@ -12,24 +12,23 @@ public class ObjectIO {
 
     public ObjectIO(String path) {
         this.file = new File(path);
-
-        try {
-            this.objectInputStream = new ObjectInputStream(new FileInputStream(this.file));
-            this.objectOutputStream = new ObjectOutputStream(new FileOutputStream(this.file));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
+    /**
+     * Lee los objetos del fichero y ejecuta su método .toString() correspondiente.
+     */
     public void readObject() {
         try {
+            this.objectInputStream = new ObjectInputStream(new FileInputStream(this.file));
 
             try {
                 while (true) {
                     //Castea al nombre del objeto correspondiente
-                    System.out.println(objectInputStream.readObject().toString());
+                    System.out.println(this.objectInputStream.readObject().toString());
                 }
             }catch (EOFException e) {}
+
+            this.objectInputStream.close();
 
         } catch (FileNotFoundException | ClassNotFoundException e) {
             // TODO Auto-generated catch block
@@ -40,17 +39,24 @@ public class ObjectIO {
         }
     }
 
+    /**
+     * Lee los objetos del fichero y lo almacena en un ArrayList
+     * @return ArrayList (Cambiar el tipo según el objeto leído)
+     */
     public ArrayList<Object> readObjectToList() {
         //Cambiar según el tipo de objeto
         ArrayList<Object> objectList = new ArrayList<>();
 
         try {
+            this.objectInputStream = new ObjectInputStream(new FileInputStream(this.file));
 
             try {
                 while (true) {
-                    objectList.add(objectInputStream.readObject());
+                    objectList.add(this.objectInputStream.readObject());
                 }
             }catch (EOFException e) {}
+
+            this.objectInputStream.close();
 
         } catch (FileNotFoundException | ClassNotFoundException e) {
             // TODO Auto-generated catch block
@@ -63,31 +69,25 @@ public class ObjectIO {
         return objectList;
     }
 
+    /**
+     * Escribe la lista de objetos en un fichero
+     * (de cualquier tipo o uno en concreto cambiandolo directamente)
+     * @param objectList lista de objetos
+     * @param <T> Permite cualquier tipo de dato (generics)
+     */
     public <T> void writeObject(ArrayList<T> objectList) {
         try {
+            this.objectOutputStream = new ObjectOutputStream(new FileOutputStream(this.file));
+
             for (int i = 0;i<objectList.size();i++) {
                 //Cambiar según el objeto
-                objectOutputStream.writeObject(objectList.get(i));
+                this.objectOutputStream.writeObject(objectList.get(i));
             }
+
+            this.objectOutputStream.close();
 
         } catch (IOException i) {
             i.printStackTrace();
-        }
-    }
-
-    public void closeWriter() {
-        try {
-            objectOutputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void closeReader() {
-        try {
-            objectInputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
