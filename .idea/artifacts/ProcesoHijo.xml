@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ProcesoHijo">
+    <output-path>$PROJECT_DIR$/src/PGV/UT1/Ejercicio2</output-path>
+    <root id="archive" name="ProcesoHijo.jar">
+      <element id="module-output" name="EscribeBytes" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/EscribeBytes/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

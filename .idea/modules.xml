@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ConfiguraServicio/ConfiguraServicio.iml" filepath="$PROJECT_DIR$/ConfiguraServicio/ConfiguraServicio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EscribeBytes/EscribeBytes.iml" filepath="$PROJECT_DIR$/EscribeBytes/EscribeBytes.iml" />
       <module fileurl="file://$PROJECT_DIR$/IdeaProjects2.iml" filepath="$PROJECT_DIR$/IdeaProjects2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TaskList/TaskList.iml" filepath="$PROJECT_DIR$/TaskList/TaskList.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tests/Tests.iml" filepath="$PROJECT_DIR$/Tests/Tests.iml" />
     </modules>
   </component>

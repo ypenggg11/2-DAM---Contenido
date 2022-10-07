@@ -14,7 +14,7 @@ public class MainPruebas {
         randomAccessIO.writeFile(RandomAccessIO.BYTES.DOUBLE,7.66);
         randomAccessIO.writeFile(RandomAccessIO.BYTES.INT,2);
         randomAccessIO.writeFile(RandomAccessIO.BYTES.INT,4);
-
+        randomAccessIO.closeWriter();
 
         for (String text: randomAccessIO.readAllFile(new RandomAccessIO.BYTES[]{RandomAccessIO.BYTES.CHAR, RandomAccessIO.BYTES.DOUBLE, RandomAccessIO.BYTES.INT, RandomAccessIO.BYTES.INT})){
             System.out.println(text);

@@ -8,7 +8,8 @@ public class RandomAccessIO {
     public enum BYTES {
         INT(4),
         CHAR(2),
-        STRINGBUFFER(CHAR.byteSize * 40),
+        STRINGBUFFER_LENGTH(40),
+        STRINGBUFFER(CHAR.byteSize * STRINGBUFFER_LENGTH.byteSize),
         DOUBLE(8);
 
         int byteSize;
@@ -42,7 +43,7 @@ public class RandomAccessIO {
                 case CHAR -> this.randomAccessFile.writeChar((Character) dataValue);
                 case STRINGBUFFER -> {
                     StringBuffer stringBuffer = new StringBuffer(dataValue.toString());
-                    stringBuffer.setLength(BYTES.STRINGBUFFER.byteSize);
+                    stringBuffer.setLength(BYTES.STRINGBUFFER_LENGTH.byteSize);
 
                     this.randomAccessFile.writeChars(stringBuffer.toString());
                 }
@@ -135,7 +136,7 @@ public class RandomAccessIO {
                         case INT -> auxId = String.valueOf(this.randomAccessFile.readInt());
                         case CHAR -> auxId = String.valueOf(this.randomAccessFile.readChar());
                         case STRINGBUFFER -> {
-                            char[] string = new char[BYTES.STRINGBUFFER.byteSize];
+                            char[] string = new char[BYTES.STRINGBUFFER_LENGTH.byteSize];
 
                             for (int i = 0;i<string.length;i++) {
                                 string[i] = this.randomAccessFile.readChar();
@@ -172,7 +173,7 @@ public class RandomAccessIO {
                 case INT -> dataList.add(String.valueOf(this.randomAccessFile.readInt()));
                 case CHAR -> dataList.add(String.valueOf(this.randomAccessFile.readChar()));
                 case STRINGBUFFER -> {
-                    char[] string = new char[BYTES.STRINGBUFFER.byteSize];
+                    char[] string = new char[BYTES.STRINGBUFFER_LENGTH.byteSize];
 
                     for (int i = 0;i<string.length;i++) {
                         string[i] = this.randomAccessFile.readChar();
