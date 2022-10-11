@@ -13,11 +13,13 @@ public class IOBuffered {
         this.process = process;
     }
 
+    //Lee el contenido y lo devuelve en forma de lista
     public ArrayList<String> readLines(){
         ArrayList<String> lines = new ArrayList<>();
 
         try {
             inputStream = process.getInputStream();
+            //Necesario InputStreamReader()
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
@@ -34,9 +36,11 @@ public class IOBuffered {
         return lines;
     }
 
+    //Escribe la linea pasada por parámetro
     public void writeLine(String line){
         try {
             outputStream = process.getOutputStream();
+            //Necesario OutputStreamWriter()
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
 
             bufferedWriter.write(line);
