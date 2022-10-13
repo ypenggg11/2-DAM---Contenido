@@ -1,4 +1,4 @@
-package AED.PlantillasUT1;
+package AED.UT1.PlantillasUT1;
 
 import java.io.*;
 

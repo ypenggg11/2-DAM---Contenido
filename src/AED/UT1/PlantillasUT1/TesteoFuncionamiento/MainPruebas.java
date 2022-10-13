@@ -1,6 +1,6 @@
-package AED.PlantillasUT1.TesteoFuncionamiento;
+package AED.UT1.PlantillasUT1.TesteoFuncionamiento;
 
-import AED.PlantillasUT1.RandomAccessIO;
+import AED.UT1.PlantillasUT1.RandomAccessIO;
 
 import java.util.ArrayList;
 

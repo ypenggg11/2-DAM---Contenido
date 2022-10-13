@@ -1,4 +1,4 @@
-package AED.PlantillasUT1.TesteoFuncionamiento;
+package AED.UT1.PlantillasUT1.TesteoFuncionamiento;
 
 import java.io.Serializable;
 
