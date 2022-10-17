@@ -37,7 +37,7 @@ public class GUI extends JFrame{
         //Uses an anonymous inner class to override the run() method
         thread  = new Thread(() -> {
 
-            char[] stringToDisplay = "Jimmy es gay :3".toCharArray();
+            char[] stringToDisplay = "MultiThreads".toCharArray();
 
             for (char c: stringToDisplay) {
                 helloMsg.setText(helloMsg.getText()+c);

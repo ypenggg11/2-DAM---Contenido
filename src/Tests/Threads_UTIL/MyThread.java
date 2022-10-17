@@ -1,5 +1,6 @@
 package Tests.Threads_UTIL;
 
+//First method to create a Thread.
 public class MyThread extends Thread{
 
     //run method is executed when you use the start() method of the thread

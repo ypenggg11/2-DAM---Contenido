@@ -37,16 +37,16 @@ public class Main{
         System.out.println("Thread is alive?: "+Thread.currentThread().isAlive());
 
 
-    	for(int i =3;i>0;i--) {
-    		System.out.println(i);
+//    	for(int i =3;i>0;i--) {
+//    		System.out.println(i);
+//
+//            //Acts like a timer, stops execution for 1s (1000 millis)
+//    		Thread.sleep(1000);
+//    	}
+//
+//    	System.out.println("You are done!");
 
-            //Acts like a timer, stops execution for 1s (1000 millis)
-    		Thread.sleep(1000);
-    	}
-
-    	System.out.println("You are done!");
-
-
+        //First form
         MyThread thread2 = new MyThread();
 
         thread2.setName("2nd thread");
@@ -64,5 +64,9 @@ public class Main{
         System.out.println("Thread priority: "+thread2.getPriority());
 
         System.out.println("Number of active Threads: "+Thread.activeCount());
+
+        //Second form
+        MyRunnableThread myRunnableThread = new MyRunnableThread();
+
     }
 }
