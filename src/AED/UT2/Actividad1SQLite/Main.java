@@ -6,7 +6,7 @@ public class Main {
 
     private static final String SQLITE_DRIVER = "org.sqlite.JDBC";
     private static final String DDBB_CONNECTION =
-            "jdbc:sqlite:./src/AED/UT2/Actividad1SQLite/DevelopmentDataBasesSQLiteActividad1_BBDD.db";
+            "jdbc:sqlite:.\\src\\AED\\UT2\\Actividad1SQLite\\DevelopmentDataBasesSQLiteActividad1_BBDD.db";
     private static String[] COLUMN_DATA_TYPE;
 
     public static void main(String[] args) {
