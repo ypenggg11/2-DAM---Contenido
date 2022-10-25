@@ -7,6 +7,7 @@ public class MainMiHilo {
 
         for (int i = 0;i<numHilos;i++) {
             MiHilo miHilo = new MiHilo(i);
+
             miHilo.getThread().join();
         }
 
