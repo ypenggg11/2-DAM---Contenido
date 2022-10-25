@@ -31,8 +31,8 @@ public class HilosMain {
 
     //Añade objetos Hilo a la lista (añadiendo prioridades con constantes de la clase Thread)
     private static void addHilosToList() {
-        hilosList.add(new Hilo("Hilo 1",Thread.MIN_PRIORITY));
+        hilosList.add(new Hilo("Hilo 1",Thread.MIN_PRIORITY,Hilo.MIN_PRIORITY_ID));
         hilosList.add(new Hilo("Hilo 2",Thread.NORM_PRIORITY));
-        hilosList.add(new Hilo("Hilo 3",Thread.MAX_PRIORITY));
+        hilosList.add(new Hilo("Hilo 3",Thread.MAX_PRIORITY,Hilo.MAX_PRIORITY_ID));
     }
 }
