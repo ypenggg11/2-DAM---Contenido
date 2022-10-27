@@ -5,10 +5,14 @@ import java.sql.*;
 public class Main {
 
     private static final String SQLITE_DRIVER = "oracle.jdbc.driver.OracleDriver";
+    //Mediante IP en la misma red.
     private static final String DDBB_CONNECTION =
-            "jdbc:oracle:thin:@localhost:1521/XE";
-    private static final String DDBB_USERNAME = "peng";
-    private static final String DDBB_PASSWD = "admin";
+            "jdbc:oracle:thin:@192.168.192.75:1521/XE";
+
+//    private static final String DDBB_CONNECTION =
+//            "jdbc:oracle:thin:@192.168.192.75:1521/XE";
+    private static final String DDBB_USERNAME = "MIXE";
+    private static final String DDBB_PASSWD = "aed";
     private static String[] COLUMN_DATA_TYPE;
 
     public static void main(String[] args) {
@@ -75,9 +79,9 @@ public class Main {
         String dataValue="";
 
         switch (dataType) {
-            case "integer","serial" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
-            case "varchar","date" ->    dataValue = resultSet.getString(columPos);
-            case "float8" ->    dataValue = String.valueOf(resultSet.getDouble(columPos));
+//            case "integer","serial" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
+            case "VARCHAR2" ->    dataValue = resultSet.getString(columPos);
+//            case "float8" ->    dataValue = String.valueOf(resultSet.getDouble(columPos));
         }
 
         return dataValue;
