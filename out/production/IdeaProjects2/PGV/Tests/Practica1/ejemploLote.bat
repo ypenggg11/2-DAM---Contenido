@@ -1,2 +1,0 @@
-explorer.exe
-calc.exe
