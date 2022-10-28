@@ -1,4 +1,4 @@
-package PGV.Tests.Practica2;
+package PGV.Tests.UT1_Practica2;
 
 import java.io.*;
 

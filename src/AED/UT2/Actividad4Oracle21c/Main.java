@@ -5,14 +5,15 @@ import java.sql.*;
 public class Main {
 
     private static final String SQLITE_DRIVER = "oracle.jdbc.driver.OracleDriver";
-    //Mediante IP en la misma red.
-    private static final String DDBB_CONNECTION =
-            "jdbc:oracle:thin:@192.168.192.75:1521/XE";
 
+    private static final String DDBB_CONNECTION =
+            "jdbc:oracle:thin:@localhost:1521/XE";
+
+//    Mediante IP en la misma red.
 //    private static final String DDBB_CONNECTION =
 //            "jdbc:oracle:thin:@192.168.192.75:1521/XE";
-    private static final String DDBB_USERNAME = "MIXE";
-    private static final String DDBB_PASSWD = "aed";
+    private static final String DDBB_USERNAME = "USERS";
+    private static final String DDBB_PASSWD = "admin";
     private static String[] COLUMN_DATA_TYPE;
 
     public static void main(String[] args) {

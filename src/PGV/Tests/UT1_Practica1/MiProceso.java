@@ -1,8 +1,6 @@
-package PGV.Tests.Practica1;
+package PGV.Tests.UT1_Practica1;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class MiProceso {
 
