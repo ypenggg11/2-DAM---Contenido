@@ -1,5 +1,7 @@
 package AED.UT2.Actividad4Oracle21c;
 
+import oracle.jdbc.pool.OracleDataSource;
+
 import java.sql.*;
 
 public class Main {
@@ -7,13 +9,13 @@ public class Main {
     private static final String SQLITE_DRIVER = "oracle.jdbc.driver.OracleDriver";
 
     private static final String DDBB_CONNECTION =
-            "jdbc:oracle:thin:@localhost:1521/XE";
+            "jdbc:oracle:thin:@localhost/XE";
 
 //    Mediante IP en la misma red.
 //    private static final String DDBB_CONNECTION =
 //            "jdbc:oracle:thin:@192.168.192.75:1521/XE";
-    private static final String DDBB_USERNAME = "USERS";
-    private static final String DDBB_PASSWD = "admin";
+    private static final String DDBB_USERNAME = "peng_aed";
+    private static final String DDBB_PASSWD = "admin1234";
     private static String[] COLUMN_DATA_TYPE;
 
     public static void main(String[] args) {
@@ -27,7 +29,7 @@ public class Main {
             //Crea una sentencia
             Statement statement = connection.createStatement();
             //Ejecuta la sentencia (executeQuery para SELECT) y lo almacena en un ResultSet
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM alumnos");
+            ResultSet resultSet = statement.executeQuery("select * from departamentos");
 
             //Obtenemos el meta data del resultSet para acceder a su información
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
@@ -35,7 +37,7 @@ public class Main {
             //.getColumnCount() -> devuelve el número de columnas de la tabla
             COLUMN_DATA_TYPE = new String[resultSetMetaData.getColumnCount()];
 
-            System.out.println("||=====================================||Alumnos||=====================================||");
+            System.out.println("||=====================================||Departamentos||=====================================||");
 
             printCols(resultSetMetaData);
 
@@ -78,11 +80,9 @@ public class Main {
     //Dependiendo del tipo de dato, lee con su correspondiente método y devuelve el contenido leído.
     private static String readData(ResultSet resultSet,String dataType,int columPos) throws SQLException {
         String dataValue="";
-
         switch (dataType) {
-//            case "integer","serial" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
+            case "NUMBER" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
             case "VARCHAR2" ->    dataValue = resultSet.getString(columPos);
-//            case "float8" ->    dataValue = String.valueOf(resultSet.getDouble(columPos));
         }
 
         return dataValue;
