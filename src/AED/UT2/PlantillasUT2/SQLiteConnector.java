@@ -2,23 +2,18 @@ package AED.UT2.PlantillasUT2;
 
 import java.sql.*;
 
-public class OracleConnector {
+public class SQLiteConnector {
 
-    //TODO Intentar implementarlo a JavaFX.
-    private final String DDBB_DRIVER = "oracle.jdbc.driver.OracleDriver";
+    private final String DDBB_DRIVER = "org.sqlite.JDBC";
 
     private final String connectionLocation;
-    private final String username;
-    private final String password;
     private String[] COLUMN_DATA_TYPE;
 
     private Connection connection;
 
-    public OracleConnector(String location,String user,String password){
-        this.username = user;
-        this.password = password;
-        //localhost or ip (192.168.192.75:1521)
-        this.connectionLocation = "jdbc:oracle:thin:@"+location+"/XE";
+    public SQLiteConnector(String ddbbPath){
+        //.\src\...\DataBaseName.db
+        this.connectionLocation = "jdbc:sqlite:"+ddbbPath;
 
         initConnector();
     }
@@ -29,7 +24,7 @@ public class OracleConnector {
             Class.forName(DDBB_DRIVER);
 
             //Establece la conexión con la base de datos indicada
-            connection = DriverManager.getConnection(connectionLocation,username,password);
+            connection = DriverManager.getConnection(connectionLocation);
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -136,8 +131,9 @@ public class OracleConnector {
     private String readData(ResultSet resultSet,String dataType,int columPos) throws SQLException {
         String dataValue="";
         switch (dataType) {
-            case "NUMBER" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
-            case "VARCHAR2" ->    dataValue = resultSet.getString(columPos);
+            case "integer" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
+            case "text" ->    dataValue = resultSet.getString(columPos);
+            case "float" ->    dataValue = String.valueOf(resultSet.getDouble(columPos));
         }
 
         return dataValue;

@@ -1,0 +1,25 @@
+*.- OBTENER FILAS CAMBIADAS:
+
+-> int filas=sentencia.executeUpdate(query);
+
+*.- UPDATE: (executeUpdate())
+
+-> UPDATE table_name SET field_name = new_value WHERE id_field = id_value
+
+*.- INSERT: (executeUpdate())
+
+-> INSERT INTO table_name VALUES (fields_values...)
+
+*.- CREATE VIEW EXAMPLE: (executeUpdate())
+
+-> CREATE OR REPLACE VIEW totales (dep,dnombre, nemp,media) AS "+
+						"SELECT d.deptno,nombredpto, COUNT(empnono), AVG(salario) " +
+						"FROM departamentos d, empleados e "+
+						"WHERE e.deptno=d.deptno " +
+						"GROUP BY d.deptno, nombredpto "+
+						"ORDER BY d.deptno";
+
+*.- SELECT VIEW EXAMPLE: (executeQuery())
+
+-> SELECT * FROM totales WHERE dep>10"
+
