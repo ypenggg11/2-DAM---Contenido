@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class OracleConnector {
 
-    //TODO Intentar implementarlo a JavaFX.
+    //TODO Intentar implementarlo a JavaFX con lo incluido en el fichero DDL.txt dentro de 'Recursos'.
     private final String DDBB_DRIVER = "oracle.jdbc.driver.OracleDriver";
 
     private final String connectionLocation;
