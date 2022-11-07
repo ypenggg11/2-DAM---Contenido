@@ -13,11 +13,11 @@ public class PostgreConnector {
 
     private Connection connection;
 
-    public PostgreConnector(String location,String user,String password){
+    public PostgreConnector(String location, String ddbbName, String user, String password){
         this.username = user;
         this.password = password;
         //localhost:5432 or ip
-        this.connectionLocation = "jdbc:postgresql://"+location+"/postgres";
+        this.connectionLocation = "jdbc:postgresql://"+location+"/"+ddbbName+"";
 
 
         initConnector();
@@ -136,9 +136,10 @@ public class PostgreConnector {
     private String readData(ResultSet resultSet,String dataType,int columPos) throws SQLException {
         String dataValue="";
         switch (dataType) {
-            case "integer","serial" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
+            case "integer","serial","int8","int4" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
             case "varchar","date" ->    dataValue = resultSet.getString(columPos);
             case "float8" ->    dataValue = String.valueOf(resultSet.getDouble(columPos));
+            default -> System.out.println(dataType);
         }
 
         return dataValue;

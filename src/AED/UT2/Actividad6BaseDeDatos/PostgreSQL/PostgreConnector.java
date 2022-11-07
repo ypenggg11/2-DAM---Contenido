@@ -136,9 +136,10 @@ public class PostgreConnector {
     private String readData(ResultSet resultSet,String dataType,int columPos) throws SQLException {
         String dataValue="";
         switch (dataType) {
-            case "integer","serial" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
+            case "integer","serial","int8","int4" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
             case "varchar","date" ->    dataValue = resultSet.getString(columPos);
             case "float8" ->    dataValue = String.valueOf(resultSet.getDouble(columPos));
+            default -> System.out.println(dataType);
         }
 
         return dataValue;

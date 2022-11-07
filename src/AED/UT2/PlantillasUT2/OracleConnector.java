@@ -13,7 +13,7 @@ public class OracleConnector {
 
     private Connection connection;
 
-    public OracleConnector(String location,String user,String password){
+    public OracleConnector(String location, String user, String password){
         this.username = user;
         this.password = password;
         //localhost or ip (192.168.192.75:1521)
@@ -136,7 +136,8 @@ public class OracleConnector {
         String dataValue="";
         switch (dataType) {
             case "NUMBER" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
-            case "VARCHAR2" ->    dataValue = resultSet.getString(columPos);
+            case "VARCHAR2", "DATE" ->    dataValue = resultSet.getString(columPos);
+            default -> System.out.println(dataType);
         }
 
         return dataValue;

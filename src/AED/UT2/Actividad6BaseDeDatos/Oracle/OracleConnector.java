@@ -136,7 +136,8 @@ public class OracleConnector {
         String dataValue="";
         switch (dataType) {
             case "NUMBER" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
-            case "VARCHAR2" ->    dataValue = resultSet.getString(columPos);
+            case "VARCHAR2", "DATE" ->    dataValue = resultSet.getString(columPos);
+            default -> System.out.println(dataType);
         }
 
         return dataValue;
