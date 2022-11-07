@@ -1,4 +1,4 @@
-package AED.UT2.PlantillasUT2;
+package AED.UT2.Actividad6BaseDeDatos.Oracle;
 
 import java.sql.*;
 
@@ -13,7 +13,7 @@ public class OracleConnector {
 
     private Connection connection;
 
-    public OracleConnector(String location,String user,String password){
+    public OracleConnector(String location, String user, String password){
         this.username = user;
         this.password = password;
         //localhost or ip (192.168.192.75:1521)

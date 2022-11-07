@@ -1,10 +1,10 @@
-package AED.UT2.PlantillasUT2;
+package AED.UT2.Actividad6BaseDeDatos.PostgreSQL;
 
 import java.sql.*;
 
-public class OracleConnector {
+public class PostgreConnector {
 
-    private final String DDBB_DRIVER = "oracle.jdbc.driver.OracleDriver";
+    private final String DDBB_DRIVER = "org.postgresql.Driver";
 
     private final String connectionLocation;
     private final String username;
@@ -13,11 +13,12 @@ public class OracleConnector {
 
     private Connection connection;
 
-    public OracleConnector(String location,String user,String password){
+    public PostgreConnector(String location,String ddbbName, String user, String password){
         this.username = user;
         this.password = password;
-        //localhost or ip (192.168.192.75:1521)
-        this.connectionLocation = "jdbc:oracle:thin:@"+location+"/XE";
+        //localhost:5432 or ip
+        this.connectionLocation = "jdbc:postgresql://"+location+"/"+ddbbName+"";
+
 
         initConnector();
     }
@@ -135,8 +136,9 @@ public class OracleConnector {
     private String readData(ResultSet resultSet,String dataType,int columPos) throws SQLException {
         String dataValue="";
         switch (dataType) {
-            case "NUMBER" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
-            case "VARCHAR2" ->    dataValue = resultSet.getString(columPos);
+            case "integer","serial" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
+            case "varchar","date" ->    dataValue = resultSet.getString(columPos);
+            case "float8" ->    dataValue = String.valueOf(resultSet.getDouble(columPos));
         }
 
         return dataValue;
