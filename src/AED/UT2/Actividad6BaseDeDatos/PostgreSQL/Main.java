@@ -14,6 +14,7 @@ public class Main {
     private static final String SELECT_SENTENCES = "./src/AED/UT2/Actividad6BaseDeDatos/SqlFiles/Select.sql";
 
     public static void main(String[] args) {
+
         PostgreConnector postgreConnector = new PostgreConnector(DDBB_LOCATION, DDBB_NAME, DDBB_USERNAME, DDBB_PASSWORD);
 
         insertToDDBB(postgreConnector);

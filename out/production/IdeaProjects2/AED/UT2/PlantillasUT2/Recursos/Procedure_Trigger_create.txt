@@ -1,1 +1,0 @@
-SQL_Developer Oracle 21c -> Database+ -> Procedimientos/Disparadores -> CREAR

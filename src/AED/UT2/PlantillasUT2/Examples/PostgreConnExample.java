@@ -4,7 +4,7 @@ import AED.UT2.PlantillasUT2.PostgreConnector;
 
 public class PostgreConnExample {
     public static void main(String[] args) {
-        PostgreConnector postgreConnector = new PostgreConnector("localhost:5432","openpg","openpgpwd");
+        PostgreConnector postgreConnector = new PostgreConnector("localhost:5432","","openpg","openpgpwd");
 
         postgreConnector.executeQuery("select * from departamentos");
 
