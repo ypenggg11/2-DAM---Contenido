@@ -23,3 +23,8 @@
 
 -> SELECT * FROM totales WHERE dep>10"
 
+*.- CREATE TABLE EXAMPLE:
+
+-> CREATE TABLE productos (cod_prod VARCHAR(5) PRIMARY KEY,
+nombre_prod VARCHAR(30), precio_prod float,stock integer,cod_prov_prod VARCHAR(4),
+FOREIGN KEY (cod_prov_prod) REFERENCES proveedores (cod_prov));
