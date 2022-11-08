@@ -1,4 +1,6 @@
-package PGV.UT2.RentACar;
+package PGV.UT2.Actividad2RentACar.producer_consumer_model;
+
+import PGV.UT2.Actividad2RentACar.data_class.Car;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
@@ -11,7 +13,7 @@ public class CarStorageBuffer {
     public static final int MIN_STORAGE = 0;
     private int currentCars;
 
-    CarStorageBuffer(){
+    public CarStorageBuffer(){
         initCarsList();
         this.currentCars = carsList.size();
     }
@@ -37,10 +39,11 @@ public class CarStorageBuffer {
 
                 semaphore.release();
                 return true;
-            }else {
-                semaphore.release();
-                return false;
             }
+
+            semaphore.release();
+            return false;
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -57,10 +60,11 @@ public class CarStorageBuffer {
 
                 semaphore.release();
                 return car;
-            } else {
-                semaphore.release();
-                return null;
             }
+
+            semaphore.release();
+            return null;
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

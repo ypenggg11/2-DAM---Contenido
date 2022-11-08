@@ -1,10 +1,10 @@
-package PGV.UT2.RentACar;
+package PGV.UT2.Actividad2RentACar.data_class;
 
 public class Car {
 
     private String carId;
 
-    Car(String carId){
+    public Car(String carId){
         this.carId = carId;
     }
 

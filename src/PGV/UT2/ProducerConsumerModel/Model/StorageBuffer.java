@@ -1,4 +1,4 @@
-package PGV.Tests.ProducerConsumerModel.Model;
+package PGV.UT2.ProducerConsumerModel.Model;
 
 import java.util.ArrayList;
 

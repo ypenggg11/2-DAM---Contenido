@@ -1,8 +1,8 @@
-package PGV.Tests.ProducerConsumerModel;
+package PGV.UT2.ProducerConsumerModel;
 
-import PGV.Tests.ProducerConsumerModel.Model.ClientConsumer;
-import PGV.Tests.ProducerConsumerModel.Model.PackageProducer;
-import PGV.Tests.ProducerConsumerModel.Model.StorageBuffer;
+import PGV.UT2.ProducerConsumerModel.Model.ClientConsumer;
+import PGV.UT2.ProducerConsumerModel.Model.PackageProducer;
+import PGV.UT2.ProducerConsumerModel.Model.StorageBuffer;
 
 import java.util.Timer;
 import java.util.TimerTask;

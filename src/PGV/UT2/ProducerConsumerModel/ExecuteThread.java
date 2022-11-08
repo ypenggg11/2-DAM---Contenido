@@ -1,4 +1,4 @@
-package PGV.Tests.ProducerConsumerModel;
+package PGV.UT2.ProducerConsumerModel;
 
 @FunctionalInterface
 public interface ExecuteThread {

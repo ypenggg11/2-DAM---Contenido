@@ -1,6 +1,6 @@
-package PGV.Tests.ProducerConsumerModel.Model;
+package PGV.UT2.ProducerConsumerModel.Model;
 
-import PGV.Tests.ProducerConsumerModel.ExecuteThread;
+import PGV.UT2.ProducerConsumerModel.ExecuteThread;
 
 public class ClientConsumer implements Runnable, ExecuteThread {
 
