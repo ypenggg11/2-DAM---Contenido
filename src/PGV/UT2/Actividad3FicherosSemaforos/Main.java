@@ -1,6 +1,7 @@
 package PGV.UT2.Actividad3FicherosSemaforos;
 
 public class Main {
+    //TODO Refactorizar codigo y añadir comentarios.
     public static void main(String[] args) {
         FileBuffer fileBuffer = new FileBuffer("./src/PGV/UT2/Actividad3FicherosSemaforos/text_file.txt");
 
