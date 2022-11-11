@@ -18,11 +18,13 @@ public class Reader implements Runnable{
         while (true) {
             String line;
             if ((line=fileBuffer.readLine())!=null) {
-                System.out.println("LEIDO: " + line);
+                System.out.println("LEIDO: " + line+" por "+thread.getName());
+            }else {
+                System.out.println("Lectura fallida por "+thread.getName());
             }
 
             try {
-                Thread.sleep((long) (Math.random()*1500));
+                Thread.sleep((long) (Math.random()*500));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

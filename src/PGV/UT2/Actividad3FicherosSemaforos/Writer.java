@@ -5,7 +5,6 @@ import java.util.Random;
 //Producer
 public class Writer implements Runnable{
 
-    //TODO posicion de las lineas arreglar repeticion
     private final Thread thread;
     private final FileBuffer fileBuffer;
 
@@ -18,11 +17,9 @@ public class Writer implements Runnable{
 
     @Override
     public void run() {
-        int counter = fileBuffer.getReadLinePosition();
         while (true) {
-            System.out.println("Linea "+counter+" ESCRITO por "+thread.getName());
-            fileBuffer.writeLine("Linea "+counter);
-            counter++;
+            System.out.println("ESCRITO por "+thread.getName());
+            fileBuffer.writeLine("Linea de "+thread.getName());
 
             try {
                 Thread.sleep((long) (Math.random()*1500));
