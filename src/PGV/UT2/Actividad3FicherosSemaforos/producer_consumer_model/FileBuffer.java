@@ -1,4 +1,6 @@
-package PGV.UT2.Actividad3FicherosSemaforos;
+package PGV.UT2.Actividad3FicherosSemaforos.producer_consumer_model;
+
+import PGV.UT2.Actividad3FicherosSemaforos.util.BufferedIO;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
@@ -10,7 +12,7 @@ public class FileBuffer {
     private ArrayList<String> linesList;
     private int readLinePosition = 0;
 
-    FileBuffer(String filePath) {
+    public FileBuffer(String filePath) {
         bufferedIO = new BufferedIO(filePath);
 
         refreshLinesList();

@@ -1,4 +1,4 @@
-package PGV.UT2.Actividad3FicherosSemaforos;
+package PGV.UT2.Actividad3FicherosSemaforos.util;
 
 import java.io.*;
 import java.util.ArrayList;
