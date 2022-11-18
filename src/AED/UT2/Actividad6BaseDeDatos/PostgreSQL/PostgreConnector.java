@@ -56,7 +56,7 @@ public class PostgreConnector {
         }
     }
 
-    //Para sentencias como update, delete, update...
+    //Para sentencias como update, delete
     public void executeUpdate(String query){
         try {
             Statement statement = connection.createStatement();

@@ -2,35 +2,40 @@ package PGV.UT2.Actividad3FicherosSemaforos.producer_consumer_model;
 
 import PGV.UT2.Actividad3FicherosSemaforos.util.BufferedIO;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public class FileBuffer {
 
     private final Semaphore mutex = new Semaphore(1);
-    private final BufferedIO bufferedIO;
-    private ArrayList<String> linesList;
-    private int readLinePosition = 0;
+    private final BufferedReader bufferedReader;
+    private BufferedWriter bufferedWriter;
+    private final String filePath;
 
     public FileBuffer(String filePath) {
-        bufferedIO = new BufferedIO(filePath);
+        this.filePath = filePath;
 
-        refreshLinesList();
-    }
-
-    private void refreshLinesList() {
-        linesList = bufferedIO.readFile();
+        try {
+            bufferedReader = new BufferedReader(new FileReader(filePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void writeLine(String line) {
         try {
             mutex.acquire();
 
-            bufferedIO.writeFile(line,true,true);
-            refreshLinesList();
+            bufferedWriter = new BufferedWriter(new FileWriter(filePath,true));
+
+            bufferedWriter.append(line);
+            bufferedWriter.newLine();
+
+            bufferedWriter.close();
 
             mutex.release();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -39,15 +44,15 @@ public class FileBuffer {
 
         try {
             mutex.acquire();
+            String line;
 
-            if (readLinePosition<linesList.size()) {
-                readLinePosition++;
+            if ((line = bufferedReader.readLine())!=null) {
 
                 mutex.release();
-                return linesList.get(readLinePosition-1);
+                return line;
             }
 
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -55,11 +60,4 @@ public class FileBuffer {
         return null;
     }
 
-    public int getReadLinePosition() {
-        return readLinePosition;
-    }
-
-    public ArrayList<String> getLinesList() {
-        return linesList;
-    }
 }
