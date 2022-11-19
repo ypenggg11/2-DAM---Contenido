@@ -4,7 +4,6 @@ public class LineasAereas implements Runnable {
 
     private final Thread thread;
     private final Buffer buffer;
-    private int numeroEnCola = 0;
     private String name;
 
     LineasAereas(String name, Buffer buffer) {
@@ -24,12 +23,14 @@ public class LineasAereas implements Runnable {
 
             if (buffer.push(this.getName())) {
                 System.out.println("El vuelo " + this.getName() + " se encuentra en pista, posicion " + buffer.getLineasEnCola());
+
                 Main.aeroLineas.replace(this.name, (Main.aeroLineas.get(this.name)) + 1);
 
                 Thread.sleep((long) (Math.random() * 10000));
 
                 System.out.print("\033[0;32m"); //Color verde
                 System.out.println(buffer.pull() + " consiguio despegar");
+
                 Main.aeroLineas.replace(this.name, (Main.aeroLineas.get(this.name)) -1);
             } else {
                 System.out.print("\033[0m"); //Color default
