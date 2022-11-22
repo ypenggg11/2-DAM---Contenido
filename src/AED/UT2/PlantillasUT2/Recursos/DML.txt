@@ -1,6 +1,6 @@
 *.- OBTENER FILAS CAMBIADAS:
 
--> int filas=sentencia.executeUpdate(query);
+-> int filas = sentencia.executeUpdate(query);
 
 *.- UPDATE: (executeUpdate())
 

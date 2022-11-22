@@ -1,4 +1,4 @@
-package AED.UT2.PlantillasUT2;
+package AED.UT2.Examen;
 
 import java.sql.*;
 
@@ -112,7 +112,7 @@ public class OracleConnector {
     private void printCols(ResultSetMetaData resultSetMetaData) throws SQLException {
         for (int i = 1;i<=COLUMN_DATA_TYPE.length;i++) {
             //.getColumnName() -> devuelve el nombre de la columna
-            System.out.printf("%-40s", resultSetMetaData.getColumnName(i));
+            System.out.printf("%-60s", resultSetMetaData.getColumnName(i));
             //.getColumnTypeName() -> devuelve el nombre del tipo de dato de la columna
             COLUMN_DATA_TYPE[i-1] = resultSetMetaData.getColumnTypeName(i);
         }
@@ -125,7 +125,7 @@ public class OracleConnector {
         while (resultSet.next()) {
             for (int i = 1;i<=COLUMN_DATA_TYPE.length;i++) {
                 //readData() método personalizado
-                System.out.printf("%-40s",readData(resultSet,COLUMN_DATA_TYPE[i-1],i));
+                System.out.printf("%-60s",readData(resultSet,COLUMN_DATA_TYPE[i-1],i));
             }
             System.out.println();
         }

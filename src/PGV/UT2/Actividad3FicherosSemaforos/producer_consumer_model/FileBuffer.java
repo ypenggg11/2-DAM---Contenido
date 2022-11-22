@@ -1,9 +1,7 @@
 package PGV.UT2.Actividad3FicherosSemaforos.producer_consumer_model;
 
-import PGV.UT2.Actividad3FicherosSemaforos.util.BufferedIO;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public class FileBuffer {

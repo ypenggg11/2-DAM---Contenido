@@ -134,6 +134,7 @@ public class SQLiteConnector {
             case "integer" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
             case "text" ->    dataValue = resultSet.getString(columPos);
             case "float" ->    dataValue = String.valueOf(resultSet.getDouble(columPos));
+            default -> System.out.println(dataType);
         }
 
         return dataValue;
