@@ -3,9 +3,6 @@ package PGV.UT2.Examen;
 import PGV.UT2.Examen.Model.Cliente;
 import PGV.UT2.Examen.Model.Comercial;
 import PGV.UT2.Examen.Model.Concesionario;
-import PGV.UT2.Plantillas.Consumer;
-import PGV.UT2.Plantillas.EmptyBuffer;
-import PGV.UT2.Plantillas.Producer;
 
 public class Main {
 

@@ -28,11 +28,11 @@ public class Main {
             //.getColumnCount() -> devuelve el número de columnas de la tabla
             COLUMN_DATA_TYPE = new String[resultSetMetaData.getColumnCount()];
 
-            for (int i = 1;i<=COLUMN_DATA_TYPE.length;i++) {
+            for (int i = 1; i <= COLUMN_DATA_TYPE.length; i++) {
                 //.getColumnName() -> devuelve el nombre de la columna
-                System.out.printf("%-20s",resultSetMetaData.getColumnName(i));
+                System.out.printf("%-20s", resultSetMetaData.getColumnName(i));
                 //.getColumnTypeName() -> devuelve el nombre del tipo de dato de la columna
-                COLUMN_DATA_TYPE[i-1] = resultSetMetaData.getColumnTypeName(i);
+                COLUMN_DATA_TYPE[i - 1] = resultSetMetaData.getColumnTypeName(i);
 //                System.out.println(resultSetMetaData.isNullable(i));
 //                System.out.println(resultSetMetaData.getColumnDisplaySize(i));
             }
@@ -40,9 +40,9 @@ public class Main {
             System.out.println();
             //Mientras sigan existiendo registros/filas...
             while (resultSet.next()) {
-                for (int i = 1;i<=COLUMN_DATA_TYPE.length;i++) {
+                for (int i = 1; i <= COLUMN_DATA_TYPE.length; i++) {
                     //readData() método personalizado
-                    System.out.printf("%-20s",readData(resultSet,COLUMN_DATA_TYPE[i-1],i));
+                    System.out.printf("%-20s", readData(resultSet, COLUMN_DATA_TYPE[i - 1], i));
                 }
                 System.out.println();
             }
@@ -56,13 +56,13 @@ public class Main {
     }
 
     //Dependiendo del tipo de dato, lee con su correspondiente método y devuelve el contenido leído.
-    private static String readData(ResultSet resultSet,String dataType,int columPos) throws SQLException {
-        String dataValue="";
+    private static String readData(ResultSet resultSet, String dataType, int columPos) throws SQLException {
+        String dataValue = "";
 
         switch (dataType) {
-            case "integer" ->    dataValue = String.valueOf(resultSet.getInt(columPos));
-            case "text" ->    dataValue = resultSet.getString(columPos);
-            case "float" ->    dataValue = String.valueOf(resultSet.getDouble(columPos));
+            case "integer" -> dataValue = String.valueOf(resultSet.getInt(columPos));
+            case "text" -> dataValue = resultSet.getString(columPos);
+            case "float" -> dataValue = String.valueOf(resultSet.getDouble(columPos));
         }
 
         return dataValue;
