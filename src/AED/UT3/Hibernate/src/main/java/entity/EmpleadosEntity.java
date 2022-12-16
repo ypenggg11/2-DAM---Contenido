@@ -2,42 +2,39 @@ package entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigInteger;
 import java.sql.Date;
-import java.util.Objects;
 
 @Entity
-@Table(name = "empleados", schema = "public", catalog = "postgres")
+@Table(name = "EMPLEADOS", schema = "AED")
 public class EmpleadosEntity {
     @Id
-    @Column(name = "id_emp")
-    private int idEmp;
+    @Column(name = "ID_EMP")
+    private BigInteger idEmp;
     @Basic
-    @Column(name = "nombre_emp")
+    @Column(name = "NOMBRE_EMP")
     private String nombreEmp;
     @Basic
-    @Column(name = "cargo_emp")
+    @Column(name = "CARGO_EMP")
     private String cargoEmp;
     @Basic
-    @Column(name = "fecha_ingreso")
+    @Column(name = "FECHA_INGRESO")
     private Date fechaIngreso;
     @Basic
-    @Column(name = "salario")
-    private double salario;
+    @Column(name = "SALARIO")
+    private BigInteger salario;
     @Basic
-    @Column(name = "comision")
-    private double comision;
-    @Basic
-    @Column(name = "id_dpt_emp",insertable=false, updatable=false)
-    private int idDptEmp;
-    @ManyToOne
-    @JoinColumn(name = "id_dpt_emp", referencedColumnName = "id_dpt", nullable = false)
-    private DepartamentosEntity departamentosByIdDptEmp;
+    @Column(name = "COMISION")
+    private BigInteger comision;
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_DPT_EMP")
+    private DepartamentosEntity dptEmp;
 
-    public int getIdEmp() {
+    public BigInteger getIdEmp() {
         return idEmp;
     }
 
-    public void setIdEmp(int idEmp) {
+    public void setIdEmp(BigInteger idEmp) {
         this.idEmp = idEmp;
     }
 
@@ -65,67 +62,27 @@ public class EmpleadosEntity {
         this.fechaIngreso = fechaIngreso;
     }
 
-    public double getSalario() {
+    public BigInteger getSalario() {
         return salario;
     }
 
-    public void setSalario(double salario) {
+    public void setSalario(BigInteger salario) {
         this.salario = salario;
     }
 
-    public double getComision() {
+    public BigInteger getComision() {
         return comision;
     }
 
-    public void setComision(double comision) {
+    public void setComision(BigInteger comision) {
         this.comision = comision;
     }
 
-    public int getIdDptEmp() {
-        return idDptEmp;
+    public DepartamentosEntity getDptEmp() {
+        return dptEmp;
     }
 
-    public void setIdDptEmp(int idDptEmp) {
-        this.idDptEmp = idDptEmp;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        EmpleadosEntity that = (EmpleadosEntity) o;
-
-        if (idEmp != that.idEmp) return false;
-        if (Double.compare(that.salario, salario) != 0) return false;
-        if (Double.compare(that.comision, comision) != 0) return false;
-        if (idDptEmp != that.idDptEmp) return false;
-        if (!Objects.equals(nombreEmp, that.nombreEmp)) return false;
-        if (!Objects.equals(cargoEmp, that.cargoEmp)) return false;
-        return Objects.equals(fechaIngreso, that.fechaIngreso);
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = idEmp;
-        result = 31 * result + (nombreEmp != null ? nombreEmp.hashCode() : 0);
-        result = 31 * result + (cargoEmp != null ? cargoEmp.hashCode() : 0);
-        result = 31 * result + (fechaIngreso != null ? fechaIngreso.hashCode() : 0);
-        temp = Double.doubleToLongBits(salario);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(comision);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + idDptEmp;
-        return result;
-    }
-
-    public DepartamentosEntity getDepartamentosByIdDptEmp() {
-        return departamentosByIdDptEmp;
-    }
-
-    public void setDepartamentosByIdDptEmp(DepartamentosEntity departamentosByIdDptEmp) {
-        this.departamentosByIdDptEmp = departamentosByIdDptEmp;
+    public void setDptEmp(DepartamentosEntity dptEmp) {
+        this.dptEmp = dptEmp;
     }
 }

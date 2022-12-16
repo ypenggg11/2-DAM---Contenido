@@ -1,8 +1,8 @@
-import entity.DepartamentosEntity;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
+import entity.EmpleadosEntity;
+import jakarta.persistence.*;
+
+import java.math.BigInteger;
+import java.sql.Date;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,21 +10,30 @@ public class Main {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
-        try{
+        try {
             transaction.begin();
 
-            DepartamentosEntity departamentos = new DepartamentosEntity();
-            departamentos.setIdDpt(5);
-            departamentos.setNombreDpt("Hibernate");
-            departamentos.setLocalidadDpt("Las Palmas");
+            /*EmpleadosEntity empleados = new EmpleadosEntity();
+            empleados.setId(BigInteger.valueOf(4));
+            empleados.setIdEmp(BigInteger.valueOf(4));
+            empleados.setNombreEmp("Hibernate");
+            empleados.setCargoEmp("Framework");
+            empleados.setFechaIngreso(new Date(2022-1900,11,15));
+            empleados.setSalario(BigInteger.valueOf(1000));
+            empleados.setComision(BigInteger.valueOf(0));
+            empleados.setIdDptEmp(BigInteger.valueOf(2));*/
 
             //Añade a la base de datos
             //(Puede dar error "PersistentObjectException", ya que no deja cambiar el valor del id (id_dpt))
             //(Solución: quitar de cada clase Entity -> @GeneratedValue(strategy = GenerationType.IDENTITY) del id)
-            entityManager.persist(departamentos);
+            /*entityManager.persist(empleados);*/
+
+            entityManager.createQuery("from DepartamentosEntity").getResultList().forEach(it -> {
+                System.out.println(it.toString());
+            });
 
             transaction.commit();
-        }finally {
+        } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
