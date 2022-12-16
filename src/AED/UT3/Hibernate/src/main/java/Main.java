@@ -1,8 +1,4 @@
-import entity.EmpleadosEntity;
 import jakarta.persistence.*;
-
-import java.math.BigInteger;
-import java.sql.Date;
 
 public class Main {
     public static void main(String[] args) {
