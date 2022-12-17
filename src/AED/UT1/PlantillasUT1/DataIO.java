@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class DataIO {
 
     //Enum con los tipos de primitivos permitidos.(los fundamentales)
-    enum PrimitiveTypes {
+    public enum PrimitiveTypes {
         INT, DOUBLE, CHAR, STRING, BOOLEAN, FLOAT;
     }
 

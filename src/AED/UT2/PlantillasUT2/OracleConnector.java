@@ -55,7 +55,7 @@ public class OracleConnector {
         }
     }
 
-    //Para sentencias como update, delete, update...
+    //Para sentencias como update, delete, insert
     public void executeUpdate(String query){
         try {
             Statement statement = connection.createStatement();
