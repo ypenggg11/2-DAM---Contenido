@@ -7,28 +7,26 @@ import java.util.ArrayList;
 
 public class Server implements Runnable{
 
-    //TODO FIX CHAT
+    //TODO {
+    //      1.- Informar mejor tanto en el servidor como en el usuario
+    //      2.- Formatear y comentar codigo
+    // }
     final static int PORT = 6000;
-    private final static ArrayList<Socket> clientList = new ArrayList<>();
-    private final static ArrayList<OutputStreamWriter> clientWriters = new ArrayList<>();
+    private final ArrayList<ConnectionHandler> clientList = new ArrayList<>();
 
-    public static void main(String[] args) {
-
-        ServerSocket serverSocket = null;
-
+    @Override
+    public void run() {
         try {
-            serverSocket = new ServerSocket(PORT);
+            ServerSocket serverSocket = new ServerSocket(PORT);
 
             while (true) {
 
                 Socket clientSocket = serverSocket.accept();
-                BufferedReader clientReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                OutputStreamWriter clientWriter = new OutputStreamWriter(clientSocket.getOutputStream());
 
-                clientList.add(clientSocket);
-                clientWriters.add(clientWriter);
+                ConnectionHandler connHandler = new ConnectionHandler(clientSocket);
+                new Thread(connHandler).start();
 
-                new Server(clientReader,clientWriter,clientList.indexOf(clientSocket));
+                clientList.add(connHandler);
             }
 
         } catch (IOException e) {
@@ -36,42 +34,66 @@ public class Server implements Runnable{
         }
     }
 
-    private final Thread thread;
-    private final BufferedReader clientReader;
-    private final OutputStreamWriter clientWriter;
-
-    Server(BufferedReader clientReader,OutputStreamWriter clientWriter,int clientId){
-        this.clientReader = clientReader;
-        this.clientWriter = clientWriter;
-
-        thread = new Thread(this);
-        thread.setName("Client "+clientId);
-        thread.start();
+    public void broadcastMessage(String message, ConnectionHandler connectionHandler) {
+        for (ConnectionHandler ch: clientList) {
+            if (!ch.equals(connectionHandler)) ch.sendMessage(message);
+        }
     }
 
-    @Override
-    public void run() {
+    public void shutdown(ConnectionHandler connectionHandler) {
+        clientList.remove(connectionHandler);
+    }
 
-        try {
+    class ConnectionHandler implements Runnable {
+        private final Socket socket;
+        private String username;
+        private BufferedReader clientReader;
+        private OutputStream clientWriter;
 
-            String input;
+        ConnectionHandler(Socket socket){
+            this.socket = socket;
+        }
 
-            while (true) {
-                input = clientReader.readLine();
-                System.out.println(Thread.currentThread().getName() + ": " + input);
+        @Override
+        public void run() {
 
-                for(OutputStreamWriter osw: clientWriters){
-                    if(!osw.equals(clientWriter)) osw.write(Thread.currentThread().getName() + ": " + input);
+            try {
+
+                clientReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                clientWriter = socket.getOutputStream();
+
+                sendMessage("Enter a username: ");
+                username = clientReader.readLine();
+                broadcastMessage(username+" connected",this);
+
+                String input;
+                while (true) {
+                    input = clientReader.readLine();
+                    broadcastMessage(username + ": "+input,this);
+                }
+
+            } catch (IOException e) {
+                shutdown(this);
+                try {
+                    broadcastMessage(username+" disconnected...",this);
+                    socket.close();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
 
+        private void sendMessage(String message) {
+            try {
+                clientWriter.write((message+"\n").getBytes());
+                clientWriter.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
-    public Thread getThread() {
-        return thread;
+    public static void main(String[] args) {
+        new Thread(new Server()).start();
     }
 }

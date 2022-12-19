@@ -1,81 +1,61 @@
 package PGV.UT3.Ejemplos.TCP_Chat;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.InetAddress;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class Client implements Runnable {
 
-    //TODO FIX CHAT
-    final static int READ_THREAD = 0;
-    final static int WRITE_THREAD = 1;
+    private BufferedReader clientReader;
+    private OutputStream clientWriter;
 
-    public static void main(String[] args) {
-
+    @Override
+    public void run() {
         try {
 
             Socket clientSocket = new Socket();
 
-            InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost(), Server.PORT);
+            InetSocketAddress address = new InetSocketAddress("127.0.0.1", Server.PORT);
 
             clientSocket.connect(address);
 
-            new Client(clientSocket, WRITE_THREAD);
-            new Client(clientSocket, READ_THREAD);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private final Thread thread;
-    private final Socket clientSocket;
-    private final int threadType;
-
-    Client(Socket clientSocket, int threadType) {
-        this.clientSocket = clientSocket;
-
-        this.threadType = threadType;
-        thread = new Thread(this);
-        thread.start();
-    }
-
-    @Override
-    public void run() {
-
-        BufferedReader clientReader = null;
-        OutputStreamWriter clientWriter = null;
-
-        try {
             clientReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            clientWriter = new OutputStreamWriter(clientSocket.getOutputStream());
+            clientWriter = clientSocket.getOutputStream();
 
-            String input;
+            new Thread(new InputHandler()).start();
 
-            while (true) {
-                if (threadType == 1) {
-                    System.out.println("Write something!");
-                    BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-                    input = inFromUser.readLine();
-                    clientWriter.write(input + '\n');
-                } else if (threadType == 0) {
-                    input = clientReader.readLine();
-                    System.out.println(input);
-                }
-            }
+             String msg;
+             while ((msg = clientReader.readLine())!= null) {
+                 System.out.println(msg);
+             }
+
+             clientSocket.close();
 
         } catch (IOException e) {
-
-            throw new RuntimeException(e);
+            System.exit(0);
         }
-
     }
 
-    public Thread getThread() {
-        return thread;
+    class InputHandler implements Runnable {
+
+        @Override
+        public void run() {
+
+            try {
+                BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+
+                while (true) {
+                    String msg = inputReader.readLine();
+                    clientWriter.write((msg+"\n").getBytes());
+                    clientWriter.flush();
+                }
+
+            } catch (IOException ignored) {
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new Thread(new Client()).start();
     }
 }
