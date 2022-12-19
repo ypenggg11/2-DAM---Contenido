@@ -15,7 +15,7 @@ public class Client {
 		try {
 			Socket clientSocket = new Socket();
 
-			InetSocketAddress address = new InetSocketAddress("127.0.0.1", 5050);
+			InetSocketAddress address = new InetSocketAddress("127.0.0.1", 6000);
 			connect(scanner, clientSocket, address);
 
 		} catch (IOException e) {
