@@ -5,25 +5,27 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/*
+* Clase Server, el main creará una instancia del Server, que se ejecutará en un Thread distinto,
+* manejando la entrada de las conexiones con el server socket, y cada conexión aceptada se creará
+* una nueva instancia de una clase interna Connection, para manejar cada conexión (cada cliente será
+* una conexión, con su propio hilo y su propio socket), y se añadirá a la lista de conexiones del Server.
+* */
 public class Server implements Runnable{
-
-    //TODO {
-    //      1.- Informar mejor tanto en el servidor como en el usuario
-    //      2.- Formatear y comentar codigo
-    // }
     final static int PORT = 6000;
-    private final ArrayList<ConnectionHandler> clientList = new ArrayList<>();
+    private final ArrayList<Connection> clientList = new ArrayList<>();
 
     @Override
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(PORT);
+            System.out.println("Waiting for connections...");
 
             while (true) {
 
                 Socket clientSocket = serverSocket.accept();
 
-                ConnectionHandler connHandler = new ConnectionHandler(clientSocket);
+                Connection connHandler = new Connection(clientSocket);
                 new Thread(connHandler).start();
 
                 clientList.add(connHandler);
@@ -34,23 +36,30 @@ public class Server implements Runnable{
         }
     }
 
-    public void broadcastMessage(String message, ConnectionHandler connectionHandler) {
-        for (ConnectionHandler ch: clientList) {
-            if (!ch.equals(connectionHandler)) ch.sendMessage(message);
+    public void broadcastMessage(String message, Connection connection) {
+        //Envía el mensaje a todos los otros clientes conectados.
+        for (Connection ch: clientList) {
+            if (!ch.equals(connection)) {
+                if (ch.username!=null) {
+                    ch.sendMessage(message);
+                }
+            }
         }
     }
 
-    public void shutdown(ConnectionHandler connectionHandler) {
-        clientList.remove(connectionHandler);
+    //Elimina el cliente de las conexiones.
+    public void shutdownConnection(Connection connection) {
+        clientList.remove(connection);
     }
 
-    class ConnectionHandler implements Runnable {
+    //Clase interna para manejar las conexiones del servidor.
+    class Connection implements Runnable {
         private final Socket socket;
-        private String username;
         private BufferedReader clientReader;
         private OutputStream clientWriter;
+        private String username;
 
-        ConnectionHandler(Socket socket){
+        Connection(Socket socket){
             this.socket = socket;
         }
 
@@ -59,23 +68,36 @@ public class Server implements Runnable{
 
             try {
 
+                //Creamos las instancias de la entrada y salida de datos.
                 clientReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 clientWriter = socket.getOutputStream();
 
+                //Solicitamos un nombre de usuario al cliente y mostramos la conexión tanto
+                //en el servidor como en los clientes conectados.
                 sendMessage("Enter a username: ");
                 username = clientReader.readLine();
+                System.out.println(username+" connected");
                 broadcastMessage(username+" connected",this);
 
                 String input;
+
+                //Una vez conectados con el nombre de usuario, estará a la escucha de mensajes
+                //enviados por los clientes y los enviará a los otros clientes conectados.
                 while (true) {
                     input = clientReader.readLine();
                     broadcastMessage(username + ": "+input,this);
                 }
 
             } catch (IOException e) {
-                shutdown(this);
+                //En caso de excepción (cliente se desconecta)
+                shutdownConnection(this);
                 try {
-                    broadcastMessage(username+" disconnected...",this);
+                    //Muestra a los conectados el usuario que se desconectó
+                    if (username!=null) {
+                        System.out.println(username+" disconnected");
+                        broadcastMessage(username+" disconnected...",this);
+                    }
+                    //Y cierra el socket del cliente
                     socket.close();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -83,8 +105,10 @@ public class Server implements Runnable{
             }
         }
 
+        //Envía un mensaje utilizando el flujo de salida. (de este socket (cliente) en concreto)
         private void sendMessage(String message) {
             try {
+                //No funciona sin "\n"
                 clientWriter.write((message+"\n").getBytes());
                 clientWriter.flush();
             } catch (IOException e) {
