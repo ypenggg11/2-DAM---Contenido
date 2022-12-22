@@ -1,32 +1,27 @@
 package PGV.UT3.Actividad1.UDP;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.util.Scanner;
 
 public class Client implements Runnable{
 
-    private Scanner scanner = new Scanner(System.in);
-    private OutputStream clientWriter;
     @Override
     public void run() {
         try {
-            InetSocketAddress inetSocketAddress = new InetSocketAddress(InetAddress.getLocalHost(), Server.PORT);
-            Socket socket = new Socket();
+            System.out.println("Connected!");
 
-            socket.connect(inetSocketAddress);
-            clientWriter = socket.getOutputStream();
+            InetAddress serverIp = InetAddress.getLocalHost();
+            DatagramSocket clientSocket = new DatagramSocket();
 
-            while (true) {
-                if (scanner.nextLine().equalsIgnoreCase("EXIT")) {
-                    clientWriter.write((inetSocketAddress.getAddress().getHostAddress()+" disconnected!\n").getBytes());
-                    socket.close();
-                    break;
-                }
-            }
+            String msg = "Hi!";
+
+            DatagramPacket msgPacket = new DatagramPacket(msg.getBytes(),msg.getBytes().length,serverIp,Server.PORT);
+
+            clientSocket.send(msgPacket);
+
+            System.out.println("Message sent!");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -34,6 +29,6 @@ public class Client implements Runnable{
     }
 
     public static void main(String[] args) {
-        new Thread(new PGV.UT3.Actividad1.TCP.Client()).start();
+        new Thread(new Client()).start();
     }
 }
