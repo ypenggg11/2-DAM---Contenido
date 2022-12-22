@@ -11,6 +11,7 @@ import java.net.Socket;
 * */
 public class Client implements Runnable {
 
+    //TODO Upgrade code
     private BufferedReader clientReader;
     private OutputStream clientWriter;
 

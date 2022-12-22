@@ -12,6 +12,8 @@ import java.util.ArrayList;
 * una conexión, con su propio hilo y su propio socket), y se añadirá a la lista de conexiones del Server.
 * */
 public class Server implements Runnable{
+
+    //TODO Upgrade code
     final static int PORT = 6000;
     private final ArrayList<Connection> clientList = new ArrayList<>();
 
