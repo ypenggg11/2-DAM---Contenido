@@ -2,31 +2,24 @@ package entity;
 
 import jakarta.persistence.*;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "DEPARTAMENTOS", schema = "AED")
+@Table(name = "departamentos", schema = "public", catalog = "postgres")
 public class DepartamentosEntity {
     @Id
-    @Column(name = "ID_DPT")
-    private BigInteger idDpt;
+    @Column(name = "id_dpt")
+    private int idDpt;
     @Basic
-    @Column(name = "NOMBRE_DPT")
+    @Column(name = "nombre_dpt")
     private String nombreDpt;
     @Basic
-    @Column(name = "LOCALIDAD_DPT")
+    @Column(name = "localidad_dpt")
     private String localidadDpt;
 
-    @OneToMany(mappedBy = "dptEmp",orphanRemoval = true)
-    private List<EmpleadosEntity> empleados = new ArrayList<>();
-
-    public BigInteger getIdDpt() {
+    public int getIdDpt() {
         return idDpt;
     }
 
-    public void setIdDpt(BigInteger idDpt) {
+    public void setIdDpt(int idDpt) {
         this.idDpt = idDpt;
     }
 
@@ -46,20 +39,25 @@ public class DepartamentosEntity {
         this.localidadDpt = localidadDpt;
     }
 
-    public List<EmpleadosEntity> getEmpleados() {
-        return empleados;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public void setEmpleados(List<EmpleadosEntity> empleados) {
-        this.empleados = empleados;
+        DepartamentosEntity that = (DepartamentosEntity) o;
+
+        if (idDpt != that.idDpt) return false;
+        if (nombreDpt != null ? !nombreDpt.equals(that.nombreDpt) : that.nombreDpt != null) return false;
+        if (localidadDpt != null ? !localidadDpt.equals(that.localidadDpt) : that.localidadDpt != null) return false;
+
+        return true;
     }
 
     @Override
-    public String toString() {
-        return "DepartamentosEntity{" +
-                "idDpt=" + idDpt +
-                ", nombreDpt='" + nombreDpt + '\'' +
-                ", localidadDpt='" + localidadDpt + '\'' +
-                '}';
+    public int hashCode() {
+        int result = idDpt;
+        result = 31 * result + (nombreDpt != null ? nombreDpt.hashCode() : 0);
+        result = 31 * result + (localidadDpt != null ? localidadDpt.hashCode() : 0);
+        return result;
     }
 }

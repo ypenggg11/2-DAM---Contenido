@@ -8,9 +8,9 @@
         <class>entity.EmpleadosEntity</class>
 
         <properties>
-            <property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost/XE"/>
-            <property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
-            <property name="hibernate.connection.username" value="system"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.username" value="openpg"/>
             <property name="hibernate.connection.password" value="openpgpwd"/>
             <property name="show_sql" value="true"/>
         </properties>
