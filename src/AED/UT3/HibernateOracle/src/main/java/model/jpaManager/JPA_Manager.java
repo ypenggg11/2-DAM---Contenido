@@ -3,8 +3,8 @@ package model.jpaManager;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import model.entity.Departamentos;
-import model.entity.Empleados;
+
+import java.util.List;
 
 public class JPA_Manager {
 
@@ -26,6 +26,10 @@ public class JPA_Manager {
         }
 
         em.getTransaction().commit();
+    }
+
+    public <T> List<T> getFullEntityList(Class<T> entityClass) {
+        return em.createQuery("from "+entityClass.getName()).getResultList();
     }
 
     public void close() {

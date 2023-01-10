@@ -5,12 +5,28 @@ import model.jpaManager.JPA_Manager;
 import java.math.BigInteger;
 
 public class Main {
+    //TODO Apartados 5 y 6
     private static JPA_Manager jpaManager;
+
     public static void main(String[] args) {
 
         jpaManager = new JPA_Manager();
 
+        // 1.- & 2.-
         insertData();
+
+        // 3.-
+        jpaManager.getFullEntityList(Empleados.class).forEach( it -> {
+            if (it.getIdEmp().equals(BigInteger.valueOf(551))) {
+                System.out.println(it);
+            }
+        });
+
+
+        // 4.-
+        jpaManager.getFullEntityList(Empleados.class).forEach(
+                it -> System.out.println(it.toString()))
+        ;
 
         jpaManager.close();
     }

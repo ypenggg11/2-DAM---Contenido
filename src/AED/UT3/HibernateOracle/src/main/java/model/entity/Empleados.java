@@ -88,4 +88,15 @@ public class Empleados {
     public void setDepartamentosByIdDptEmp(Departamentos departamentosByIdDptEmp) {
         this.departamentosByIdDptEmp = departamentosByIdDptEmp;
     }
+
+    @Override
+    public String toString() {
+        return "Empleados{" +
+                "idEmp=" + idEmp +
+                ", nombreEmp='" + nombreEmp + '\'' +
+                ", salarioEmp=" + salarioEmp +
+                ", idDptEmp=" + idDptEmp +
+                ", departamentosByIdDptEmp=" + departamentosByIdDptEmp +
+                '}';
+    }
 }

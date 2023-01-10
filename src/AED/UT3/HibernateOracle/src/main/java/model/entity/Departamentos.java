@@ -61,4 +61,13 @@ public class Departamentos {
         result = 31 * result + (localidadDpt != null ? localidadDpt.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Departamentos{" +
+                "idDpt=" + idDpt +
+                ", nombreDpt='" + nombreDpt + '\'' +
+                ", localidadDpt='" + localidadDpt + '\'' +
+                '}';
+    }
 }
