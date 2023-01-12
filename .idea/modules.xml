@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/src/AED/UT3/Hibernate/Hibernate.iml" filepath="$PROJECT_DIR$/src/AED/UT3/Hibernate/Hibernate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/AED/UT3/Hibernate/HibernatePostgre.iml" filepath="$PROJECT_DIR$/src/AED/UT3/Hibernate/HibernatePostgre.iml" />
       <module fileurl="file://$PROJECT_DIR$/IdeaProjects2.iml" filepath="$PROJECT_DIR$/IdeaProjects2.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tests/Tests.iml" filepath="$PROJECT_DIR$/Tests/Tests.iml" />
     </modules>

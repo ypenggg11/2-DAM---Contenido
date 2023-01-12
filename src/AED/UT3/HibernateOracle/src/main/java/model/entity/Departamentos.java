@@ -16,6 +16,14 @@ public class Departamentos {
     @Column(name = "LOCALIDAD_DPT")
     private String localidadDpt;
 
+    public Departamentos(){}
+
+    public Departamentos(BigInteger idDpt, String nombreDpt, String localidadDpt) {
+        this.idDpt = idDpt;
+        this.nombreDpt = nombreDpt;
+        this.localidadDpt = localidadDpt;
+    }
+
     public BigInteger getIdDpt() {
         return idDpt;
     }

@@ -22,6 +22,14 @@ public class Empleados {
     @JoinColumn(name = "ID_DPT_EMP", referencedColumnName = "ID_DPT", nullable = false,insertable=false, updatable=false)
     private Departamentos departamentosByIdDptEmp;
 
+    public Empleados(){}
+    public Empleados(BigInteger idEmp, String nombreEmp, double salarioEmp, BigInteger idDptEmp) {
+        this.idEmp = idEmp;
+        this.nombreEmp = nombreEmp;
+        this.salarioEmp = salarioEmp;
+        this.idDptEmp = idDptEmp;
+    }
+
     public BigInteger getIdEmp() {
         return idEmp;
     }

@@ -7,11 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Hibernate" />
+        <module name="HibernatePostgre" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CharAscii" target="19" />
       <module name="Hibernate" target="11" />
+      <module name="HibernatePostgre" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

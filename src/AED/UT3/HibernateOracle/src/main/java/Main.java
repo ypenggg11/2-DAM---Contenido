@@ -10,59 +10,77 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Custom class
         jpaManager = new JPA_Manager();
 
-        // 1.- & 2.-
+        // Insertar datos
         insertData();
 
-        // 3.-
-        jpaManager.getFullEntityList(Empleados.class).forEach( it -> {
-            if (it.getIdEmp().equals(BigInteger.valueOf(551))) {
-                System.out.println(it);
-            }
-        });
+        // Obtener entidad por ID
+        System.out.println((jpaManager.getEntityById(Empleados.class, 551)).toString());
 
-
-        // 4.-
+        // Obtener todos los registros de una entidad
         jpaManager.getFullEntityList(Empleados.class).forEach(
-                it -> System.out.println(it.toString()))
-        ;
+                it -> System.out.println(it.toString())
+        );
+
+        // Eliminar registro por id de una entidad
+        JPA_Manager.printConfirmationMessage(
+                jpaManager.removeEntityById(Empleados.class, 553),
+                JPA_Manager.Actions.DELETE
+        );
+
+        // Actualizar entidad
+        Empleados empleado = ((Empleados) jpaManager.getEntityById(Empleados.class, 552));
+        empleado.setSalarioEmp(empleado.getSalarioEmp()+500);
+
+        JPA_Manager.printConfirmationMessage(
+                jpaManager.updateEntity(empleado),
+                JPA_Manager.Actions.UPDATE
+        );
 
         jpaManager.close();
     }
 
     private static void insertData() {
-        // 1.-
-        Departamentos departamento = new Departamentos();
-        departamento.setIdDpt(BigInteger.valueOf(55));
-        departamento.setNombreDpt("Innovación");
-        departamento.setLocalidadDpt("Agüimes");
 
-        jpaManager.insert(departamento);
+        JPA_Manager.printConfirmationMessage(
+                jpaManager.insert(new Departamentos(
+                        BigInteger.valueOf(55),
+                        "Innovación",
+                        "Agüimes"
+                )),
+                JPA_Manager.Actions.INSERT
+        );
 
-        // 2.-
-        Empleados empleado1 = new Empleados();
-        empleado1.setIdEmp(BigInteger.valueOf(551));
-        empleado1.setNombreEmp("Peng");
-        empleado1.setSalarioEmp(1200.0);
-        empleado1.setIdDptEmp(BigInteger.valueOf(55));
+        JPA_Manager.printConfirmationMessage(
+                jpaManager.insert(new Empleados(
+                        BigInteger.valueOf(551),
+                        "Peng",
+                        1200.0,
+                        BigInteger.valueOf(55)
+                )),
+                JPA_Manager.Actions.INSERT
+        );
 
-        jpaManager.insert(empleado1);
+        JPA_Manager.printConfirmationMessage(
+                jpaManager.insert(new Empleados(
+                        BigInteger.valueOf(552),
+                        "Jimmy",
+                        1100.0,
+                        BigInteger.valueOf(55)
+                )),
+                JPA_Manager.Actions.INSERT
+        );
 
-        Empleados empleado2 = new Empleados();
-        empleado2.setIdEmp(BigInteger.valueOf(552));
-        empleado2.setNombreEmp("Jimmy");
-        empleado2.setSalarioEmp(1000.0);
-        empleado2.setIdDptEmp(BigInteger.valueOf(55));
-
-        jpaManager.insert(empleado2);
-
-        Empleados empleado3 = new Empleados();
-        empleado3.setIdEmp(BigInteger.valueOf(553));
-        empleado3.setNombreEmp("Nicolas");
-        empleado3.setSalarioEmp(1100.0);
-        empleado3.setIdDptEmp(BigInteger.valueOf(55));
-
-        jpaManager.insert(empleado3);
+        JPA_Manager.printConfirmationMessage(
+                jpaManager.insert(new Empleados(
+                        BigInteger.valueOf(553),
+                        "Nicolas",
+                        1150.0,
+                        BigInteger.valueOf(55)
+                )),
+                JPA_Manager.Actions.INSERT
+        );
     }
 }
