@@ -1,4 +1,4 @@
-package model.jpaManager;
+package model.orm;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -98,7 +98,11 @@ public class JPA_Manager {
         if (b) {
             System.out.println(action.name() + " successful!");
         } else {
-            System.out.println(action.name() + " failed!");
+            if (action == Actions.INSERT) {
+                System.out.println("Duplicated entry!");
+            } else {
+                System.out.println(action.name() + " failed!");
+            }
         }
     }
 
