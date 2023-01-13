@@ -9,7 +9,8 @@ import java.net.MulticastSocket;
 
 public class Main implements Runnable {
 
-    public static final String host = "255.1.1.1";
+    //TODO Mejorar código
+    public static final String host = "225.1.1.1";
     public static final int port = 6999;
 
     @Override
@@ -28,7 +29,7 @@ public class Main implements Runnable {
                 byte[] buffer = new byte[1000];
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 multicastSocket.receive(packet);
-                msg = new String(packet.getData());
+                msg = new String(packet.getData()).trim();
                 System.out.println(msg);
             }
 
