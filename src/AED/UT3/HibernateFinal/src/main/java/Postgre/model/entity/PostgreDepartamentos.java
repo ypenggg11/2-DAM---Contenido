@@ -3,15 +3,16 @@ package Postgre.model.entity;
 import jakarta.persistence.*;
 
 @Entity
-public class Departamentos {
+@Table(name = "departamentos", catalog = "Hibernate")
+public class PostgreDepartamentos {
     @Id
-    @Column(name = "ID_DPT")
+    @Column(name = "id_dpt")
     private int idDpt;
     @Basic
-    @Column(name = "NOMBRE_DPT")
+    @Column(name = "nombre_dpt")
     private String nombreDpt;
     @Basic
-    @Column(name = "LOCALIDAD_dPT")
+    @Column(name = "localidad_dpt")
     private String localidadDPt;
 
     public int getIdDpt() {
@@ -43,7 +44,7 @@ public class Departamentos {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Departamentos that = (Departamentos) o;
+        PostgreDepartamentos that = (PostgreDepartamentos) o;
 
         if (idDpt != that.idDpt) return false;
         if (nombreDpt != null ? !nombreDpt.equals(that.nombreDpt) : that.nombreDpt != null) return false;
@@ -58,5 +59,14 @@ public class Departamentos {
         result = 31 * result + (nombreDpt != null ? nombreDpt.hashCode() : 0);
         result = 31 * result + (localidadDPt != null ? localidadDPt.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "PostgreDepartamentos{" +
+                "idDpt=" + idDpt +
+                ", nombreDpt='" + nombreDpt.trim() + '\'' +
+                ", localidadDPt='" + localidadDPt.trim() + '\'' +
+                '}';
     }
 }

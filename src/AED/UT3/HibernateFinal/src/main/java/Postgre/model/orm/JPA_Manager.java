@@ -3,6 +3,7 @@ package Postgre.model.orm;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -94,6 +95,10 @@ public class JPA_Manager {
         em.getTransaction().commit();
 
         return updated;
+    }
+
+    public <T> Query getQuery(Class<T> entityClass, String query) {
+        return em.createQuery(query, entityClass);
     }
 
     public static void printConfirmationMessage(boolean b, Actions action) {

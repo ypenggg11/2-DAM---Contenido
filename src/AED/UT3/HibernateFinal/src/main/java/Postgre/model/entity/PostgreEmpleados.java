@@ -3,22 +3,23 @@ package Postgre.model.entity;
 import jakarta.persistence.*;
 
 @Entity
-public class Empleados {
+@Table(name = "empleados", catalog = "Hibernate")
+public class PostgreEmpleados {
     @Id
-    @Column(name = "ID_EMP")
+    @Column(name = "id_emp")
     private int idEmp;
     @Basic
-    @Column(name = "NOMBRE_EMP")
+    @Column(name = "nombre_emp")
     private String nombreEmp;
     @Basic
-    @Column(name = "SALARIO_EMP")
+    @Column(name = "salario_emp")
     private double salarioEmp;
     @Basic
-    @Column(name = "ID_DPT_EMP")
+    @Column(name = "id_dpt_emp")
     private int idDptEmp;
     @ManyToOne
-    @JoinColumn(name = "ID_DPT_EMP", referencedColumnName = "ID_DPT", nullable = false,insertable=false, updatable=false)
-    private Departamentos departamentosByIdDptEmp;
+    @JoinColumn(name = "id_dpt_emp", referencedColumnName = "id_dpt", nullable = false,insertable = false,updatable = false)
+    private PostgreDepartamentos departamentosByIdDptEmp;
 
     public int getIdEmp() {
         return idEmp;
@@ -57,12 +58,12 @@ public class Empleados {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Empleados empleados = (Empleados) o;
+        PostgreEmpleados that = (PostgreEmpleados) o;
 
-        if (idEmp != empleados.idEmp) return false;
-        if (Double.compare(empleados.salarioEmp, salarioEmp) != 0) return false;
-        if (idDptEmp != empleados.idDptEmp) return false;
-        if (nombreEmp != null ? !nombreEmp.equals(empleados.nombreEmp) : empleados.nombreEmp != null) return false;
+        if (idEmp != that.idEmp) return false;
+        if (Double.compare(that.salarioEmp, salarioEmp) != 0) return false;
+        if (idDptEmp != that.idDptEmp) return false;
+        if (nombreEmp != null ? !nombreEmp.equals(that.nombreEmp) : that.nombreEmp != null) return false;
 
         return true;
     }
@@ -79,11 +80,22 @@ public class Empleados {
         return result;
     }
 
-    public Departamentos getDepartamentosByIdDptEmp() {
+    public PostgreDepartamentos getDepartamentosByIdDptEmp() {
         return departamentosByIdDptEmp;
     }
 
-    public void setDepartamentosByIdDptEmp(Departamentos departamentosByIdDptEmp) {
+    public void setDepartamentosByIdDptEmp(PostgreDepartamentos departamentosByIdDptEmp) {
         this.departamentosByIdDptEmp = departamentosByIdDptEmp;
+    }
+
+    @Override
+    public String toString() {
+        return "PostgreEmpleados{" +
+                "idEmp=" + idEmp +
+                ", nombreEmp='" + nombreEmp.trim() + '\'' +
+                ", salarioEmp=" + salarioEmp +
+                ", idDptEmp=" + idDptEmp +
+                ", departamentosByIdDptEmp=" + departamentosByIdDptEmp +
+                '}';
     }
 }
