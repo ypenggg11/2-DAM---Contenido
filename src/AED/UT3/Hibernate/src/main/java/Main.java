@@ -24,7 +24,9 @@ public class Main {
             //(Solución: quitar de cada clase Entity -> @GeneratedValue(strategy = GenerationType.IDENTITY) del id)
             /*entityManager.persist(empleados);*/
 
-            entityManager.createQuery("from DepartamentosEntity").getResultList().forEach(it -> {
+            Query fromDepartamentosEntity = entityManager.createQuery("from DepartamentosEntity");
+                
+            fromDepartamentosEntity.getResultList().forEach(it -> {
                 System.out.println(it.toString());
             });
 
