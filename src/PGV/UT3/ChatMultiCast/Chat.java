@@ -11,7 +11,6 @@ import java.util.Scanner;
 // Modelo de grupos UDP
 public class Chat implements Runnable {
 
-    //TODO Evitar error al salir (exit) -> Origen = cierre de MulticastSocket
     public static final String host = "225.1.1.1";
     public static final int port = 6999;
     public String username;
