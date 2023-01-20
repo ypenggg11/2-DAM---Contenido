@@ -4,9 +4,10 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
-public class Server implements NetAddress{
+public class Server implements NetAddress {
 
     private static final Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
         /* No se atiende a varios clientes al mismo tiempo = NO hace falta multihilo */
 
@@ -31,22 +32,20 @@ public class Server implements NetAddress{
                     /* 1 = username, 2 = mensaje*/
                     String[] splitMsg = msg.split(":");
 
-                    String broadcastMsg = (splitMsg[0]+":"+splitMsg[1]).toUpperCase();
-                    msg = "PRIVADO: "+splitMsg[2];
+                    String broadcastMsg = (splitMsg[0] + ":" + splitMsg[1]).toUpperCase();
+                    msg = "PRIVADO: " + splitMsg[2];
 
                     paquete = new DatagramPacket(broadcastMsg.getBytes(), broadcastMsg.length(), address, PORT);
                     multicastSocket.send(paquete);
 
-                    try {
-                        multicastSocket.leaveGroup(address);
 
-                        //TODO Probar conexión privada con TCP (socket stream)
+                    multicastSocket.leaveGroup(address);
+                    multicastSocket.close();
 
-                        multicastSocket.joinGroup(address);
+                    new Thread(new PrivateConnection(address,msg)).start();
 
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    multicastSocket = new MulticastSocket(PORT);
+                    multicastSocket.joinGroup(address);
 
                 } else {
                     paquete = new DatagramPacket(msg.getBytes(), msg.length(), address, PORT);
@@ -63,4 +62,42 @@ public class Server implements NetAddress{
         }
     }
 
+    static class PrivateConnection implements Runnable {
+        private InetAddress address;
+        private String msg;
+
+        PrivateConnection(InetAddress address,String msg) {
+            this.address = address;
+            this.msg = msg;
+        }
+
+        @Override
+        public void run() {
+            try {
+                ServerSocket server = new ServerSocket(PRIVATE_PORT);
+
+                Socket client = server.accept();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                OutputStream writer = client.getOutputStream();
+
+                /* Envía mensaje privado */
+                writer.write((msg+"\n").getBytes());
+
+
+                /* Recibe respuesta del cliente */
+                System.out.println(reader.readLine());
+
+                /* Close */
+                writer.close();
+                reader.close();
+                client.close();
+                server.close();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
 }

@@ -8,6 +8,7 @@ import java.net.*;
 import java.util.Scanner;
 
 public class Client implements NetAddress {
+    //TODO Limpiar y mejorar codigo + comentarios (todo funcional)
     private static final Scanner scanner = new Scanner(System.in);
     private static String username;
 
@@ -42,16 +43,12 @@ public class Client implements NetAddress {
                     if (msg.contains("PRIVADO:")) {
                         String usr = msg.split(":")[1];
                         if (usr.equalsIgnoreCase(username)) {
-                            try {
-                                multicastSocket.leaveGroup(address);
 
-                                //TODO Probar conexión privada con TCP (socket stream)
+                            new Thread(new PrivateConnection(address)).start();
 
-                                multicastSocket.joinGroup(address);
+                            multicastSocket = new MulticastSocket(PORT);
+                            multicastSocket.joinGroup(address);
 
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
                         }
                     } else {
                         System.out.println("Servidor: " + msg);
@@ -69,4 +66,40 @@ public class Client implements NetAddress {
             throw new RuntimeException(e);
         }
     }
+
+    static class PrivateConnection implements Runnable {
+        private InetAddress address;
+
+        PrivateConnection(InetAddress address) {
+            this.address = address;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Socket client = new Socket();
+                client.connect(new InetSocketAddress(InetAddress.getLocalHost(),PRIVATE_PORT));
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                OutputStream writer = client.getOutputStream();
+
+                /* Recibe mensaje privado */
+                System.out.println(reader.readLine());
+
+                /* Envia respuesta al recibir */
+                String reply = username + ": OK, RECIBIDO\n";
+                writer.write(reply.getBytes());
+
+                /* Close */
+                writer.close();
+                reader.close();
+                client.close();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+
 }
