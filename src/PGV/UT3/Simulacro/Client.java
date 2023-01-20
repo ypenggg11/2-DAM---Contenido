@@ -7,16 +7,17 @@ import java.io.OutputStream;
 import java.net.*;
 import java.util.Scanner;
 
+/*
+    Hilo principal -> Recibe datagramas del multicast
+    Hilo PrivateConnection -> Gestiona la conexión privada
+*/
 public class Client implements NetAddress {
-    //TODO Limpiar y mejorar codigo + comentarios (todo funcional)
     private static final Scanner scanner = new Scanner(System.in);
     private static String username;
 
     public static void main(String[] args) {
-        /* Solo recibe mensajes, no  escribe = solo hace falta hilo principal */
-
-        /* Se conecta al grupo con MulticastSocket (Actúa de 'Cliente') */
         try {
+            /* Se conecta al grupo con MulticastSocket (Actúa de 'Cliente') */
             MulticastSocket multicastSocket = new MulticastSocket(PORT);
 
             System.out.print("Introduzca un nombre de usuario: ");
@@ -28,28 +29,29 @@ public class Client implements NetAddress {
             System.out.println("Conectado!");
             System.out.println("Esperando mensajes... ");
 
-            /* Recibe mensaje del servidor */
+            /* Comienza a recibir mensajes del servidor */
             String msg;
 
             while (true) {
-                byte[] buffer = new byte[1024];
+                byte[] msgBuffer = new byte[1024];
 
-                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                DatagramPacket packet = new DatagramPacket(msgBuffer, msgBuffer.length);
                 multicastSocket.receive(packet);
 
                 msg = new String(packet.getData()).trim();
 
+                /* Comprobación del mensaje recibido */
                 if (!msg.equalsIgnoreCase("salir")) {
                     if (msg.contains("PRIVADO:")) {
+
+                        /* Recupera el nombre de usuario enviado por el servidor */
                         String usr = msg.split(":")[1];
+
+                        /* Si es nuestro usuario, empieza la conexión privada */
                         if (usr.equalsIgnoreCase(username)) {
-
-                            new Thread(new PrivateConnection(address)).start();
-
-                            multicastSocket = new MulticastSocket(PORT);
-                            multicastSocket.joinGroup(address);
-
+                            new Thread(new PrivateConnection()).start();
                         }
+
                     } else {
                         System.out.println("Servidor: " + msg);
                     }
@@ -58,6 +60,7 @@ public class Client implements NetAddress {
                 }
             }
 
+            /* Se sale del grupo y cierra el multicast */
             System.out.println("Saliendo...");
             multicastSocket.leaveGroup(address);
             multicastSocket.close();
@@ -68,25 +71,24 @@ public class Client implements NetAddress {
     }
 
     static class PrivateConnection implements Runnable {
-        private InetAddress address;
 
-        PrivateConnection(InetAddress address) {
-            this.address = address;
-        }
+        PrivateConnection() {}
 
         @Override
         public void run() {
             try {
+                /* Conexión por Socket Stream con el puerto privado */
                 Socket client = new Socket();
                 client.connect(new InetSocketAddress(InetAddress.getLocalHost(),PRIVATE_PORT));
 
+                /* Abrimos el writer y reader */
                 BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 OutputStream writer = client.getOutputStream();
 
                 /* Recibe mensaje privado */
                 System.out.println(reader.readLine());
 
-                /* Envia respuesta al recibir */
+                /* Envia respuesta al recibir ('\n' MUY IMPORTANTE) */
                 String reply = username + ": OK, RECIBIDO\n";
                 writer.write(reply.getBytes());
 

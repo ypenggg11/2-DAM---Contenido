@@ -4,15 +4,18 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
+/*
+    Hilo principal -> Envía datagramas al multicast
+    Hilo PrivateConnection -> Gestiona la conexión privada
+*/
 public class Server implements NetAddress {
 
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        /* No se atiende a varios clientes al mismo tiempo = NO hace falta multihilo */
 
-        /* Se conecta al grupo con MulticastSocket (Actúa de 'servidor') */
         try {
+            /* Se conecta al grupo con MulticastSocket (Actúa de 'servidor') */
             MulticastSocket multicastSocket = new MulticastSocket(PORT);
 
             InetAddress address = InetAddress.getByName(IP);
@@ -21,31 +24,35 @@ public class Server implements NetAddress {
             System.out.println("Conectado!");
             System.out.println("Escriba algun mensaje...");
 
-            /* Envía mensaje al resto */
+            /* Comienza a enviar mensajes al resto */
             String msg = "";
             DatagramPacket paquete;
 
             while (!msg.equalsIgnoreCase("salir")) {
                 msg = scanner.nextLine();
 
+                /* Si es un comando PRIVADO, se separará el mensaje */
                 if (msg.toUpperCase().contains("PRIVADO:")) {
-                    /* 1 = username, 2 = mensaje*/
+                    /* [1] = username, [2] = mensaje*/
                     String[] splitMsg = msg.split(":");
 
-                    String broadcastMsg = (splitMsg[0] + ":" + splitMsg[1]).toUpperCase();
-                    msg = "PRIVADO: " + splitMsg[2];
+                    if (splitMsg.length > 2) {
+                        /* Mensaje con solo 'PRIVADO:username' */
+                        String broadcastMsg = (splitMsg[0] + ":" + splitMsg[1]).toUpperCase();
 
-                    paquete = new DatagramPacket(broadcastMsg.getBytes(), broadcastMsg.length(), address, PORT);
-                    multicastSocket.send(paquete);
+                        /* Mensaje a enviar por el canal privado */
+                        msg = "PRIVADO: " + splitMsg[2];
 
+                    /*
+                       Enviamos el mensaje con 'PRIVADO:username', y el cliente con ese username
+                       se conectará al canal privado (no se muestra para los otros)
+                    */
+                        paquete = new DatagramPacket(broadcastMsg.getBytes(), broadcastMsg.length(), address, PORT);
+                        multicastSocket.send(paquete);
 
-                    multicastSocket.leaveGroup(address);
-                    multicastSocket.close();
-
-                    new Thread(new PrivateConnection(address,msg)).start();
-
-                    multicastSocket = new MulticastSocket(PORT);
-                    multicastSocket.joinGroup(address);
+                        /* Iniciamos la conexión privada como servidor */
+                        new Thread(new PrivateConnection(msg)).start();
+                    }
 
                 } else {
                     paquete = new DatagramPacket(msg.getBytes(), msg.length(), address, PORT);
@@ -63,27 +70,27 @@ public class Server implements NetAddress {
     }
 
     static class PrivateConnection implements Runnable {
-        private InetAddress address;
         private String msg;
 
-        PrivateConnection(InetAddress address,String msg) {
-            this.address = address;
+        PrivateConnection(String msg) {
             this.msg = msg;
         }
 
         @Override
         public void run() {
             try {
+                /* Nos conectamos al puerto privado con dirección localhost */
                 ServerSocket server = new ServerSocket(PRIVATE_PORT);
 
+                /* Aceptamos el usuario que notificamos a conectarse */
                 Socket client = server.accept();
 
+                /* Abrimos el writer y reader */
                 BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 OutputStream writer = client.getOutputStream();
 
-                /* Envía mensaje privado */
+                /* Envía mensaje privado ('\n' MUY IMPORTANTE) */
                 writer.write((msg+"\n").getBytes());
-
 
                 /* Recibe respuesta del cliente */
                 System.out.println(reader.readLine());
@@ -97,7 +104,6 @@ public class Server implements NetAddress {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         }
     }
 }
