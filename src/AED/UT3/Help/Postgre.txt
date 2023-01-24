@@ -1,0 +1,25 @@
+1.- pom.xml
+
+<dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.1</version>
+</dependency>
+
+2.- Database config
+
+URL -> jdbc:postgresql://localhost:5432/Hibernate
+Default schema && public
+
+3.- persistence.xml
+
+<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/Hibernate"/>
+<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+<property name="hibernate.connection.username" value="openpg"/>
+<property name="hibernate.connection.password" value="openpgpwd"/>
+
+4.- Generate persistence objects
+
+If error check class persistence tags
+
+5.- Use JPA_Manager class and see examples
