@@ -5,5 +5,12 @@
              version="3.0">
     <persistence-unit name="examen">
 
+        <class>model.entity.Alumnos</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+            <property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
+            <property name="hibernate.connection.username" value="peng_aed"/>
+            <property name="hibernate.connection.password" value="openpgpwd"/>
+        </properties>
     </persistence-unit>
 </persistence>
