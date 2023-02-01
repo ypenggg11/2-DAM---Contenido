@@ -1,0 +1,1 @@
+Si da error o no muestra nada, intenta poniendo el sqlite3.exe en la misma carpeta.

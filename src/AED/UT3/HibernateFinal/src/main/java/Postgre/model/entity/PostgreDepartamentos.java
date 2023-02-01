@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "departamentos", catalog = "Hibernate")
 public class PostgreDepartamentos {
+
     @Id
     @Column(name = "id_dpt")
     private int idDpt;
@@ -69,4 +70,6 @@ public class PostgreDepartamentos {
                 ", localidadDPt='" + localidadDPt.trim() + '\'' +
                 '}';
     }
+
+
 }

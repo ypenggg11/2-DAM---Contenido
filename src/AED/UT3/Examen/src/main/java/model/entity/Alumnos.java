@@ -89,10 +89,11 @@ public class Alumnos {
 
     @Override
     public String toString() {
-        return "\n||===============||Alumno||===============||\n" +
-                "Nif: " + nif + '\n' +
-                "Nombre: " + nombre + '\n' +
-                "Cial: " + cial + '\n' +
-                "Telefono: " + telefono;
+        return "Alumnos{" +
+                "nif='" + nif + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", cial='" + cial + '\'' +
+                ", telefono='" + telefono + '\'' +
+                '}';
     }
 }

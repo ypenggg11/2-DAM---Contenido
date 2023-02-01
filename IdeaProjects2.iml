@@ -15,5 +15,6 @@
     <orderEntry type="library" name="ojdbc11" level="project" />
     <orderEntry type="library" name="mongodb-jdbc-2.0.0-all" level="project" />
     <orderEntry type="library" name="db4o-8.0.249.16098-core-java5" level="project" />
+    <orderEntry type="library" name="commons-net-3.3" level="project" />
   </component>
 </module>

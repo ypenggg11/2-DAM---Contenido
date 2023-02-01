@@ -6,6 +6,7 @@ import java.math.BigInteger;
 
 @Entity
 public class Departamentos {
+
     @Id
     @Column(name = "ID_DPT")
     private BigInteger idDpt;
@@ -23,6 +24,8 @@ public class Departamentos {
         this.nombreDpt = nombreDpt;
         this.localidadDpt = localidadDpt;
     }
+
+
 
     public BigInteger getIdDpt() {
         return idDpt;
@@ -78,4 +81,6 @@ public class Departamentos {
                 ", localidadDpt='" + localidadDpt + '\'' +
                 '}';
     }
+
+
 }
