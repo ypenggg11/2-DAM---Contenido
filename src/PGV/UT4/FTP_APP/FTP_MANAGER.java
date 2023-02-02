@@ -1,5 +1,6 @@
 package PGV.UT4.FTP_APP;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
@@ -31,6 +32,8 @@ public class FTP_MANAGER {
                 disconnect();
                 return false;
             }
+
+            this.client.setFileType(FTP.BINARY_FILE_TYPE);
 
             return true;
 
@@ -74,6 +77,14 @@ public class FTP_MANAGER {
         return dirList;
     }
 
+    public boolean deleteDir(String dirName) {
+        try {
+            return client.removeDirectory(dirName);
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
     private ArrayList<String> directories = new ArrayList<>();
     private HashMap<String, FTPFile> fileList = new HashMap<>();
 
@@ -104,7 +115,7 @@ public class FTP_MANAGER {
 
     public boolean makeDir(String pathName) {
         try {
-            return  client.makeDirectory(pathName);
+            return client.makeDirectory(pathName);
         } catch (IOException e) {
             return false;
         }

@@ -37,7 +37,7 @@ public class Main {
                 System.out.println("CONNECTED!");
                 connected = true;
 
-                System.out.print("\n[0] UPLOAD | [1] DOWNLOAD: ");
+                System.out.print("\n[0] UPLOAD | [1] DOWNLOAD | [2] DELETE REMOTE: ");
                 String choose = scanner.nextLine();
 
                 switch (choose.toUpperCase()) {
@@ -53,8 +53,12 @@ public class Main {
                     }
                     case "1", "DOWNLOAD" -> {
                         showAllRemoteFiles();
-
-                        downloadFile(getLocalDir().getAbsolutePath());
+                        String localDir = getLocalDir().getAbsolutePath();
+                        downloadFile(createNewLocalDir(localDir));
+                    }
+                    case "2", "DELETE REMOTE" -> {
+                        showAllRootDirectories();
+                        deleteRemoteDir();
                     }
                     default -> System.out.println("?????????");
                 }
@@ -69,6 +73,51 @@ public class Main {
         }
     }
 
+    private static void showAllRootDirectories() {
+        System.out.println();
+        ftpManager.getDirList().forEach(System.out::println);
+    }
+
+    private static void deleteRemoteDir() {
+        boolean deleted = false;
+
+        do {
+            System.out.println("\nEnter one directory name from one of above: ");
+            String dirName = scanner.nextLine();
+            System.out.println();
+
+            if (!dirName.equals("")) {
+                boolean delete = ftpManager.deleteDir(dirName);
+                System.out.println(dirName+" deleted: "+delete);
+            }
+
+            System.out.println("\nDelete another file?");
+            System.out.print("[0] YES | [1] NO: ");
+            String input = scanner.nextLine();
+
+            deleted = input.equalsIgnoreCase("YES") || input.equals("0");
+
+        } while (deleted);
+    }
+
+    private static String createNewLocalDir(String destinationPath) {
+        boolean dirCreated = false;
+        String newDir;
+
+        do {
+            System.out.println("\nEnter a new local directory name/path (Ex: dir2 | dir2/subdir2 ): ");
+            newDir = scanner.nextLine();
+
+            if (!newDir.equals("")) {
+                dirCreated = new File(destinationPath + "/" + newDir).mkdir();
+            }
+        } while (!dirCreated);
+
+        newDir = destinationPath + "/" + newDir;
+
+        return newDir;
+    }
+
     private static void downloadFile(String destinationLocalPath) {
         boolean continueDownloading;
 
@@ -79,7 +128,7 @@ public class Main {
 
             if (!remotePath.equals("")) {
                 boolean downloaded = ftpManager.downloadOneFile(destinationLocalPath, remotePath);
-                System.out.println(remotePath+" downloaded: "+downloaded);
+                System.out.println(remotePath + " downloaded: " + downloaded);
             }
 
             System.out.println("\nDownload another file?");
@@ -88,7 +137,7 @@ public class Main {
 
             continueDownloading = input.equalsIgnoreCase("YES") || input.equals("0");
 
-        }while (continueDownloading);
+        } while (continueDownloading);
     }
 
     private static void showAllRemoteFiles() throws IOException {
