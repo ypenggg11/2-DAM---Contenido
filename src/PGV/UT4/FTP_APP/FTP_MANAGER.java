@@ -62,6 +62,29 @@ public class FTP_MANAGER {
         }
     }
 
+    public boolean downloadAllFilesFromDir(String destinationLocalPath,String dirName) {
+        try {
+            boolean success = false;
+
+            for (FTPFile ftpFile : client.listFiles()) {
+                if (ftpFile.isDirectory()&&ftpFile.getName().equals(dirName)) {
+                    client.changeWorkingDirectory(dirName);
+
+                    for (FTPFile file : client.listFiles()) {
+                        BufferedOutputStream bo = new BufferedOutputStream(new FileOutputStream(destinationLocalPath+"/"+file.getName()));
+                        success = client.retrieveFile(file.getName(), bo);
+                    }
+
+                    client.changeWorkingDirectory("");
+                }
+            }
+
+            return success;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
     public ArrayList<String> getDirList(){
 
         ArrayList<String> dirList = new ArrayList<>();
@@ -87,6 +110,7 @@ public class FTP_MANAGER {
 
     private ArrayList<String> directories = new ArrayList<>();
     private HashMap<String, FTPFile> fileList = new HashMap<>();
+    public static int dirAmout;
 
     public HashMap<String, FTPFile> getAllFiles(String path) throws IOException {
         do {
@@ -94,6 +118,7 @@ public class FTP_MANAGER {
             for (FTPFile file : files) {
                 if (file.isDirectory()) {
                     directories.add(path + "/" + file.getName());
+                    dirAmout ++;
                 } else {
                     fileList.put(path + "/"+file.getName(),file);
                 }
@@ -111,6 +136,8 @@ public class FTP_MANAGER {
     public void clearFilesList() {
         directories.clear();
         fileList.clear();
+
+        dirAmout = 0;
     }
 
     public boolean makeDir(String pathName) {

@@ -1,9 +1,11 @@
 package PGV.UT4.FTP_APP;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -122,13 +124,13 @@ public class Main {
         boolean continueDownloading;
 
         do {
-            System.out.println("\nEnter one full file path from the remote list: ");
-            String remotePath = scanner.nextLine();
+            System.out.println("\nEnter one directory from the remote list: ");
+            String dir = scanner.nextLine();
             System.out.println();
 
-            if (!remotePath.equals("")) {
-                boolean downloaded = ftpManager.downloadOneFile(destinationLocalPath, remotePath);
-                System.out.println(remotePath + " downloaded: " + downloaded);
+            if (!dir.equals("")) {
+                boolean downloaded = ftpManager.downloadAllFilesFromDir(destinationLocalPath, dir);
+                System.out.println(dir + " downloaded: " + downloaded);
             }
 
             System.out.println("\nDownload another file?");
@@ -143,12 +145,19 @@ public class Main {
     private static void showAllRemoteFiles() throws IOException {
 
         HashMap<String, FTPFile> allFiles = ftpManager.getAllFiles("");
-
-        System.out.println("\n||==========||Server files: " + allFiles.size() + "||==========||\n");
+        ArrayList<String> filesPath = new ArrayList<>();
 
         allFiles.forEach((path, file) -> {
-            System.out.println(path);
+            filesPath.add(path);
         });
+
+        Collections.sort(filesPath);
+
+        System.out.println("\n||==========||Server files: " + filesPath.size() + "||==========||\n");
+
+        System.out.println("DIRECTORIES: "+FTP_MANAGER.dirAmout+"\n");
+
+        filesPath.forEach(System.out::println);
 
         ftpManager.clearFilesList();
     }
